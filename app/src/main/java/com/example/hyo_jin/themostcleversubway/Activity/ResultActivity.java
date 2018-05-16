@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mResultPagerAdapter = new ResultPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -46,6 +49,21 @@ public class ResultActivity extends AppCompatActivity {
         ResultPagerAdapter adapter = new ResultPagerAdapter(getSupportFragmentManager(), new ResultFragment());
 
 //        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+                finish();
+
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

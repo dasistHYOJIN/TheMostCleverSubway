@@ -20,8 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <!--app:layout_scrollFlags="scroll|enterAlways"
+            앱 스크롤시 액션바 위로 올라가는거-->
 
         </android.support.v7.widget.Toolbar>
 
