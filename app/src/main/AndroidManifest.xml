@@ -32,4 +32,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--네트워킹 기능을 사용할 때 INTERNET 권한이 있어야 됨-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
 </manifest>

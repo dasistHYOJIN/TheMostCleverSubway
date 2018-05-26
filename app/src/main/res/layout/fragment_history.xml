@@ -13,4 +13,9 @@ tools:context="com.example.hyo_jin.themostcleversubway.Fragments.HistoryFragment
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="#ffffff" />
+<!--
+    <ExpandableListView
+        android:id="@+id/expandable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ExpandableListView>-->
 </LinearLayout>
