@@ -1,7 +1,5 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,26 +17,25 @@ import com.example.hyo_jin.themostcleversubway.Item.HistoryListItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HistoryFragment//.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HistoryFragment//#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private ListView listView;
+    private ExpandableListView expandableListView;
+
+    private List<String> expandableListTitle = new ArrayList<>();
+    private Map<String, List<String>> expandableListDetail = new HashMap<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        listView = (ListView) view.findViewById(R.id.listview_history);
+        init(view);
 
         /*** 리스트뷰 완성하기 ***/
         List<HistoryListItem> data = new ArrayList<>();
@@ -54,6 +51,8 @@ public class HistoryFragment extends Fragment {
 
         HistoryListAdapter adapter = new HistoryListAdapter(this.getContext(), R.layout.listlayout_history, data);
 
+        Log.v(TAG, listView == null ? "Null" : "Not Null");
+
         listView.setAdapter(adapter);
 
         Log.v(TAG, "1");
@@ -68,8 +67,15 @@ public class HistoryFragment extends Fragment {
         });
         Log.v(TAG, "3");
 
+        /*** 익스팬더블 리스트뷰 완성하기 ***/
+
+
         return view;
-        //return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    protected void init(View view) {
+        listView = (ListView) view.findViewById(R.id.listview_history);
+        //expandableListView = (ExpandableListView) view.findViewById(R.id.expandablelistview_history);
     }
 
 }

@@ -43,7 +43,8 @@ public class SplashActivity extends AppCompatActivity {
         Log.v(TAG, "getSubwayData() 실행");
 
         /*** 서버 연결해서 데이터 받기 ***/
-        String url = "http://192.168.0.33:3000";
+        //String url = "http://192.168.0.33:3000";
+        String url = "http://192.168.43.1:3000";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null,
                 new Response.Listener<JSONObject>() {
@@ -56,8 +57,12 @@ public class SplashActivity extends AppCompatActivity {
                             jsonArray = response.getJSONArray("DATA"); // jsonArray에 저장
 
                             Log.v(TAG, "JSON 데이터 이제 DB에 넣을거야");
-                            insertDataInDB(); // DB에 데이터 넣기
+                            //insertDataInDB(); // DB에 데이터 넣기
+                            StationDBHelper dbHelper = new StationDBHelper(getApplicationContext(), jsonArray);
+                            SQLiteDatabase database = dbHelper.getWritableDatabase();
+                            Log.v(TAG, "JSON 데이터 들어갔나");
                         } catch (JSONException e) {
+                            Log.v(TAG, "서버 연결 안됨!");
                             e.printStackTrace();
                         }
                     }
@@ -74,18 +79,16 @@ public class SplashActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-    protected void insertDataInDB() {
+/*    protected void insertDataInDB() {
         Log.v(TAG, "insertDataInDB() 실행");
-        StationDBHelper dbHelper = new StationDBHelper(this);
+        StationDBHelper dbHelper = new StationDBHelper(this, jsonArray);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         try {
             // JsonObjectRequest에서 데이터를 못받아왔을 떄
             if (jsonArray == null) {
-                String json = "[{\"line_num\":\"3\",\"station_cd\":\"0330\",\"station_nm\":\"교대\",\"fr_code\":\"340\"},\n" +
-                        "{\"line_num\":\"KK\",\"station_cd\":\"1505\",\"station_nm\":\"초월\",\"fr_code\":\"K414\"}]";
-
-                jsonArray = new JSONArray(json);
+                Log.v(TAG, "JsonObjectRequest에서 데이터를 못받아옴");
+                return;
             }
 
             // JSONArray 클래스는 JSON 파일에서 배열을 읽어들인다.
@@ -101,5 +104,5 @@ public class SplashActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

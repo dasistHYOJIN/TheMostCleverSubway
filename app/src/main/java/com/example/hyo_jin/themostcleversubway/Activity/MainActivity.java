@@ -18,6 +18,7 @@ import com.example.hyo_jin.themostcleversubway.Adapter.SectionsPagerAdapter;
 import com.example.hyo_jin.themostcleversubway.Fragments.FavoriteFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.HistoryFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment;
+import com.example.hyo_jin.themostcleversubway.Fragments.TestFragment;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     // Tab Titles
-    private String[] tabs = {"즐겨찾기", "검색", "검색기록"};
+    private String[] tabs = {"즐겨찾기", "검색", "검색기록", "테스트용"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FavoriteFragment(), tabs[0]);
         adapter.addFragment(new SearchFragment(), tabs[1]);
         adapter.addFragment(new HistoryFragment(), tabs[2]);
+        adapter.addFragment(new TestFragment(), tabs[3]);
 
         viewPager.setAdapter(adapter);
     }

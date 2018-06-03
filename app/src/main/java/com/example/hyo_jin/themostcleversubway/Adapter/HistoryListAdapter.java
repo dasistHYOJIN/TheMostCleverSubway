@@ -33,7 +33,6 @@ public class HistoryListAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-
     @Override
     public int getCount() {
         return data.size();
@@ -58,7 +57,7 @@ public class HistoryListAdapter extends BaseAdapter {
 
         HistoryListItem historyListItem = data.get(i);
 
-        TextView text_course = (TextView) view.findViewById(R.id.text_course);
+        TextView text_course = (TextView) view.findViewById(R.id.text_course_history);
         //ImageButton image_star = (ImageButton) view.findViewById(R.id.image_star);
 
         // 아이템 내 각 위젯에 데이터 반영

@@ -1,27 +1,31 @@
 {
   "project_info": {
-    "project_number": "240069569202",
-    "firebase_url": "https://samplepush-f80e2.firebaseio.com",
-    "project_id": "samplepush-f80e2",
-    "storage_bucket": "samplepush-f80e2.appspot.com"
+    "project_number": "585553765306",
+    "firebase_url": "https://themostcleversubway.firebaseio.com",
+    "project_id": "themostcleversubway",
+    "storage_bucket": "themostcleversubway.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:240069569202:android:8351865168ae889c",
+        "mobilesdk_app_id": "1:585553765306:android:8351865168ae889c",
         "android_client_info": {
           "package_name": "com.example.hyo_jin.themostcleversubway"
         }
       },
       "oauth_client": [
         {
-          "client_id": "240069569202-ci2u45hlhci7ot52kbnqsd20gsm8rhqg.apps.googleusercontent.com",
+          "client_id": "585553765306-oojmlih12l3icvr664vs4nqsuodkg3k5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "585553765306-oojmlih12l3icvr664vs4nqsuodkg3k5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAp4RxUIEHlcL72gFYnFTI-xVIaUJjx7mA"
+          "current_key": "AIzaSyAfGMnHnCRmldxFX76Ya2xRJiU6Y0RhD8s"
         }
       ],
       "services": {

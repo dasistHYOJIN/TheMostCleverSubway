@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Hyo-Jin on 2018-05-18.
  * SQLite를 통해 테이블을 만드는 등 여러 일
@@ -19,10 +23,17 @@ public class StationDBHelper extends SQLiteOpenHelper {
 
     final private String TAG = "StationDBHelper";
     private Context context;
+    private JSONArray jsonArray;
 
     public StationDBHelper(Context context) {
         //super(context, "themostcleversubway.db", null, 1);
         super(context, "subway.db", null, 1);
+    }
+
+    public StationDBHelper(Context context, JSONArray jsonArray) {
+        //super(context, "themostcleversubway.db", null, 1);
+        super(context, "subway.db", null, 1);
+        this.jsonArray = jsonArray;
     }
 
     /* DB가 존재하지 않을때 DB를 만드는 역할
@@ -42,13 +53,16 @@ public class StationDBHelper extends SQLiteOpenHelper {
         buffer.append(" PRIMARY KEY (STATION_CD)) ");
         db.execSQL(buffer.toString());
 
+        // 지하철역 정보 테이블에 데이터 삽입
+        insertData(db);
+
         // 사용자 테이블 생성
         buffer = new StringBuffer();
         buffer.append("CREATE TABLE USER (" +
-                " USER_ID INTEGER NOT NULL " +
-                " STATION_DEP INTEGER " +
-                " STATION_ARR INTEGER " +
-                " TYPE INTEGER " +
+                " USER_ID INTEGER NOT NULL, " +
+                " STATION_DEP INTEGER, " +
+                " STATION_ARR INTEGER, " +
+                " TYPE INTEGER, " +
                 " PRIMARY KEY (USER_ID)) ");
 
         // DB에 쿼리 실행하기
@@ -65,7 +79,7 @@ public class StationDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insert(SQLiteDatabase db, int station_cd, String line_num, String station_nm, String fr_code) {
+   /* public void insert(SQLiteDatabase db, int station_cd, String line_num, String station_nm, String fr_code) {
 
         // 이미 DB가 존재하면 함수 종료
         if (!selectAll(db).moveToFirst()) return;
@@ -82,7 +96,7 @@ public class StationDBHelper extends SQLiteOpenHelper {
         //db.execSQL(buffer.toString());
         Log.v(TAG, "Insert 쿼리 생성완료!");
 
-    }
+    }*/
 
     // 검색 프래그먼트에서 왼쪽 리스트뷰를 위한 SQL 검색
     public Cursor select(SQLiteDatabase db, boolean flag) {
@@ -137,8 +151,10 @@ public class StationDBHelper extends SQLiteOpenHelper {
             }
             sql.append(" ORDER BY STATION_NM ASC ");
         }
-        else
+        else {
             sql.append(" WHERE LINE_NUM=\"" + condition + "\" ");
+            sql.append(" ORDER BY STATION_CD ASC ");
+        }
 
         Cursor result = db.rawQuery(sql.toString(), null);
         return result;
@@ -149,6 +165,35 @@ public class StationDBHelper extends SQLiteOpenHelper {
         Cursor result = db.rawQuery(sql, null);
 
         return result;
+    }
+
+    protected void insertData(SQLiteDatabase db) {
+        Log.v(TAG, "insertData() 실행");
+
+        try {
+            if (jsonArray == null) {
+                Log.v(TAG, "jsonArray가 null");
+                return;
+            }
+
+            // JSONArray 클래스는 JSON 파일에서 배열을 읽어들인다.
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject station = jsonArray.getJSONObject(i);
+
+                StringBuffer buffer = new StringBuffer();
+                buffer.append(" INSERT INTO STATION_INFO ( ");
+                buffer.append(" STATION_CD, LINE_NUM, STATION_NM, FR_CODE ) ");
+                buffer.append(" VALUES ( " + station.getInt("station_cd") + ", \"" + station.getString("line_num") + "\", \""
+                        + station.getString("station_nm") + "\", \"" + station.getString("fr_code") + "\")");
+
+                db.execSQL(buffer.toString());
+                Log.v(TAG, i + "번째 데이터 insert 실행함");
+            }
+            Log.v(TAG, "JSON 배열 다 읽어옴");
+        } catch (JSONException e) {
+            Log.v(TAG, "insertData() 실패");
+            e.printStackTrace();
+        }
     }
 
     /*public String selectAll(SQLiteDatabase db) {

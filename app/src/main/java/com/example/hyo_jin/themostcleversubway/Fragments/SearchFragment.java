@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment {
 
     /*** DB에서 데이터 가져와서 리스트에 추가하기 ***/
     protected void selectDataInDB() {
-        StationDBHelper dbHelper = new StationDBHelper(getActivity());
+        StationDBHelper dbHelper = new StationDBHelper(getActivity(), null);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
         List<String> linenum = new ArrayList<>(); // 선택기준 리스트뷰 리스트
@@ -114,6 +114,10 @@ public class SearchFragment extends Fragment {
 
     }
 
+    // btn_replace 누르면 출발역 도착역 바꾸기
+    protected void swap_station() {
+
+    }
 /*
         create.setOnClickListener(new View.OnClickListener() {
             @Override
