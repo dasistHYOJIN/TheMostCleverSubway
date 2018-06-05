@@ -4,22 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.hyo_jin.themostcleversubway.Activity.ResultActivity;
-import com.example.hyo_jin.themostcleversubway.Activity.SettingsActivity;
 import com.example.hyo_jin.themostcleversubway.Adapter.FavoriteGridAdapter;
-import com.example.hyo_jin.themostcleversubway.Adapter.HistoryListAdapter;
 import com.example.hyo_jin.themostcleversubway.Item.FavoriteGridItem;
-import com.example.hyo_jin.themostcleversubway.Item.HistoryListItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import java.util.ArrayList;

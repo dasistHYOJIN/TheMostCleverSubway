@@ -5,10 +5,9 @@
     android:orientation="vertical"
     tools:context="com.example.hyo_jin.themostcleversubway.Fragments.TestFragment">
 
-    <ExpandableListView
-        android:id="@+id/expandablelistview_history"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/test_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

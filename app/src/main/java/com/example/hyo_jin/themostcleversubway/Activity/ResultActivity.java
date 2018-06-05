@@ -58,10 +58,10 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_result);
-        //init();
+        init();
 
         /** 플젝용 **/
-/*
+
         btn_sbm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,16 +84,31 @@ public class ResultActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 error.printStackTrace();
 
-                                Log.v(TAG, "웹 서버 데이터요청 실패여");
-                                text_result.append("웹 서버 데이터요청 실패여\n");
+                                Log.v(TAG, "웹 서버 추가 데이터요청 실패여");
+                                text_result.append("웹 서버 추가 데이터요청 실패여\n");
                             }
-                        });
+                        }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+
+                        DeviceInfo deviceInfo = getDeviceInfo();
+                        params.put("mobile", deviceInfo.getMobile());
+                        params.put("osVersion", deviceInfo.getOsVersion());
+                        params.put("model", deviceInfo.getModel());
+                        params.put("display", deviceInfo.getDisplay());
+                        params.put("manufacturer", deviceInfo.getManufacture());
+                        params.put("macAddress", deviceInfo.getMacAddress());
+
+                        return super.getParams();
+                    }
+                };
 
                 request.setShouldCache(false);
                 Volley.newRequestQueue(getApplicationContext()).add(request);
 
-                Log.v(TAG, "웹 서버에 요청함 : " + url);
-                text_result.append("웹 서버에 요청함 : " + url + "\n");
+                Log.v(TAG, "웹 서버에 추가 요청함 : " + url);
+                text_result.append("웹 서버에 추가 요청함 : " + url + "\n");
             }
         });
 
@@ -147,7 +162,7 @@ public class ResultActivity extends AppCompatActivity {
                 text_result.append("웹 서버에 추가 요청함 : " + url + "\n");
             }
         });
-*/
+
 
         /** 플젝용 **/
 
@@ -162,7 +177,6 @@ public class ResultActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
-
 
     private void setupViewPager(ViewPager viewPager) {
         ResultPagerAdapter adapter = new ResultPagerAdapter(getSupportFragmentManager(), new ResultFragment());
@@ -189,31 +203,53 @@ public class ResultActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
 
         // 플젝용 (졸프ㄴㄴ)
-/*        edit_addr = (EditText) findViewById(R.id.edit_addr);
+        edit_addr = (EditText) findViewById(R.id.edit_addr);
         btn_sbm = (Button) findViewById(R.id.btn_sbm);
         edit_add = (EditText) findViewById(R.id.edit_add);
         btn_add = (Button) findViewById(R.id.btn_add);
         text_result = (TextView) findViewById(R.id.text_result);
-        text_result.setText("");*/
+        text_result.setText("");
 
     }
 
     /** 플젝용 **/
     public DeviceInfo getDeviceInfo() {
+        Log.v(TAG, "엣헴1 ");
         DeviceInfo deviceInfo = null;
 
+        Log.v(TAG, "엣헴2 ");
         String mobile = null;
+
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-        if(telephonyManager.getLine1Number() != null) {
+        Log.v(TAG, "엣헴3 " + telephonyManager);
+
+        /*if(telephonyManager.getLine1Number() != null) {
+            Log.v(TAG, "엣헴4 ");
             mobile = telephonyManager.getLine1Number();
+        }*/
+
+        try {
+            Log.v(TAG, "엣헴4.1 ");
+            mobile = telephonyManager.getLine1Number();
+            Log.v(TAG, "엣헴4.2 ");
+        } catch(SecurityException e) {
+            Log.v(TAG, "엣헴4.3 ");
+            e.printStackTrace();
         }
+        //mobile = "010-9993-1114";
+        Log.v(TAG, "엣헴5 ");
 
         String osVersion = Build.VERSION.RELEASE;
         String model = Build.MODEL;
         String display = getDisplay(this);
         String manufacture = Build.MANUFACTURER;
         String macAddress = getMacAddress(this);
+
+        deviceInfo = new DeviceInfo(mobile, osVersion, model, display, manufacture, macAddress);
+
+        Log.v(TAG, "엣헴5 " + deviceInfo.getOsVersion());
+
 
         return deviceInfo;
     }

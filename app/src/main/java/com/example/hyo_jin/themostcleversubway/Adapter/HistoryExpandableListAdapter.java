@@ -16,14 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HistoryChildAdapter extends BaseExpandableListAdapter {
+public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
 
     private List<String> groupList = new ArrayList<>();
     private Map<String, List<String>> childrenMap = new HashMap<>();
 
-    public HistoryChildAdapter(Context context, List<String> groupList, Map<String, List<String>> childrenMap) {
+    public HistoryExpandableListAdapter(Context context, List<String> groupList, Map<String, List<String>> childrenMap) {
         this.context = context;
         this.groupList = groupList;
         this.childrenMap = childrenMap;

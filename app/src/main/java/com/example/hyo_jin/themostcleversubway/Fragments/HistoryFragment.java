@@ -1,5 +1,6 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,13 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.hyo_jin.themostcleversubway.Adapter.HistoryListAdapter;
-import com.example.hyo_jin.themostcleversubway.Item.HistoryListItem;
+import com.example.hyo_jin.themostcleversubway.Activity.TimetablePopup;
+import com.example.hyo_jin.themostcleversubway.Adapter.HistoryExpandableListAdapter;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import java.util.ArrayList;
@@ -21,14 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
-    private ListView listView;
-    private ExpandableListView expandableListView;
 
-    private List<String> expandableListTitle = new ArrayList<>();
-    private Map<String, List<String>> expandableListDetail = new HashMap<>();
+    private View result;
+    private ExpandableListView expandableListView;
+    private ImageButton btn_timetable;
+
+    String[] arProv = new String[] { "ㄱ", "ㄴ", "ㄷ" };
+    String[][] arCity = new String[][] {
+            {"A"},
+            {"B"},
+            {"C"}
+    };
 
     @Nullable
     @Override
@@ -37,45 +43,50 @@ public class HistoryFragment extends Fragment {
 
         init(view);
 
-        /*** 리스트뷰 완성하기 ***/
-        List<HistoryListItem> data = new ArrayList<>();
-        HistoryListItem one = new HistoryListItem("구파발", "태릉입구", true);
-        HistoryListItem two = new HistoryListItem("태릉입구", "구파발", true);
-        HistoryListItem three = new HistoryListItem("숭실대입구", "태릉입구", true);
-        HistoryListItem four = new HistoryListItem("구파발", "신촌", true);
+        /*** 익스팬더블 리스트뷰 완성하기 ***/
+        List<String> provData = new ArrayList<>();
+        Map<String, List<String>> cityData = new HashMap<>();
 
-        data.add(one);
-        data.add(two);
-        data.add(three);
-        data.add(four);
+        // Adding Group Data
+        for (int i = 0; i < arProv.length; i++) {
+            provData.add(arProv[i]);
 
-        HistoryListAdapter adapter = new HistoryListAdapter(this.getContext(), R.layout.listlayout_history, data);
+            // Adding Child Data
+            List<String> city = new ArrayList<>();
+            for (int j = 0; j < arCity[i].length; j++) {
+                city.add(arCity[i][j]);
+            }
+            cityData.put(arProv[i], city);
+        }
 
-        Log.v(TAG, listView == null ? "Null" : "Not Null");
+        HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(getContext(), provData, cityData);
 
-        listView.setAdapter(adapter);
+        Log.v(TAG, expandableListView == null ? "Null" : "Not Null");
 
-        Log.v(TAG, "1");
+        expandableListView.setAdapter(adapter);
+        /************************************/
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Log.v(TAG, btn_timetable == null ? "Null" : "Not Null");
+
+        btn_timetable.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.v(TAG, "2");
-
-                Toast.makeText(getActivity().getApplicationContext(), ((HistoryListItem)adapterView.getItemAtPosition(position)).getStation1(), Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                Log.v(TAG, "클릭됨");
+                Toast.makeText(getActivity(), TAG + " 프래그먼트에서 시간표 액티비티를 띄워봄", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(HistoryFragment.super.getContext(), TimetablePopup.class));
             }
         });
-        Log.v(TAG, "3");
-
-        /*** 익스팬더블 리스트뷰 완성하기 ***/
-
 
         return view;
     }
 
     protected void init(View view) {
-        listView = (ListView) view.findViewById(R.id.listview_history);
-        //expandableListView = (ExpandableListView) view.findViewById(R.id.expandablelistview_history);
+        result = getLayoutInflater().inflate(R.layout.fragment_result, null, false);
+
+        expandableListView = (ExpandableListView) view.findViewById(R.id.expandablelistview_history);
+        btn_timetable = (ImageButton) result.findViewById(R.id.btn_timetable);
+        //Log.v(TAG, String.valueOf(result.findViewById(R.id.btn_timetable)));
     }
 
 }

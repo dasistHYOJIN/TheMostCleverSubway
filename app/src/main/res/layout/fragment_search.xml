@@ -18,7 +18,7 @@ tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Departure" />
+            android:text="구파발" />
 
         <ImageButton
             android:id="@+id/btn_replace"
@@ -33,7 +33,7 @@ tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Arrive" />
+            android:text="신촌" />
 
         <ImageButton
             android:id="@+id/btn_search"

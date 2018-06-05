@@ -26,13 +26,11 @@ public class StationDBHelper extends SQLiteOpenHelper {
     private JSONArray jsonArray;
 
     public StationDBHelper(Context context) {
-        //super(context, "themostcleversubway.db", null, 1);
-        super(context, "subway.db", null, 1);
+        super(context, "themostcleversubway.db", null, 1);
     }
 
     public StationDBHelper(Context context, JSONArray jsonArray) {
-        //super(context, "themostcleversubway.db", null, 1);
-        super(context, "subway.db", null, 1);
+        super(context, "themostcleversubway.db", null, 1);
         this.jsonArray = jsonArray;
     }
 
@@ -99,20 +97,20 @@ public class StationDBHelper extends SQLiteOpenHelper {
     }*/
 
     // 검색 프래그먼트에서 왼쪽 리스트뷰를 위한 SQL 검색
-    public Cursor select(SQLiteDatabase db, boolean flag) {
+    public Cursor selectLeftList(SQLiteDatabase db, boolean flag) {
         //* STATION_CD INTEGER, LINE_NUM TEXT, STATION_NM TEXT, FR_CODE TEXT
         StringBuffer sql = new StringBuffer();
 
         sql.append(" SELECT DISTINCT LINE_NUM ");
         sql.append(" FROM STATION_INFO ");
-        sql.append(" ORDER BY LINE_NUM ASC ");
+        sql.append(" ORDER BY FR_CODE ASC ");
 
         Cursor result = db.rawQuery(sql.toString(), null);
         return result;
     }
 
     // 검색 프래그먼트에서 사용하게 될 select()
-    public Cursor select(SQLiteDatabase db, String condition, boolean flag) {
+    public Cursor selectRightList(SQLiteDatabase db, String condition, boolean flag) {
         StringBuffer sql = new StringBuffer();
 
         sql.append(" SELECT DISTINCT STATION_CD, STATION_NM ");
@@ -153,7 +151,7 @@ public class StationDBHelper extends SQLiteOpenHelper {
         }
         else {
             sql.append(" WHERE LINE_NUM=\"" + condition + "\" ");
-            sql.append(" ORDER BY STATION_CD ASC ");
+            sql.append(" ORDER BY FR_CODE ASC ");
         }
 
         Cursor result = db.rawQuery(sql.toString(), null);

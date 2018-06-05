@@ -43,8 +43,8 @@ public class SplashActivity extends AppCompatActivity {
         Log.v(TAG, "getSubwayData() 실행");
 
         /*** 서버 연결해서 데이터 받기 ***/
-        //String url = "http://192.168.0.33:3000";
-        String url = "http://192.168.43.1:3000";
+        String url = "http://192.168.0.33:3000"; // 집IP
+        //String url = "http://192.168.43.1:3000";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null,
                 new Response.Listener<JSONObject>() {
