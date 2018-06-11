@@ -22,6 +22,7 @@
             android:layout_marginLeft="41dp"
             android:layout_marginTop="8dp"
             android:text="+n"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,23 +33,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textSize="14dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/fastseat"
-            app:layout_constraintVertical_bias="0.8"
+            android:layout_marginTop="20dp"
             app:layout_constraintLeft_toRightOf="@+id/left"
-            android:layout_marginLeft="31dp" />
+            android:layout_marginLeft="41dp" />
 
         <TextView
             android:id="@+id/fastseat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/bestseat"
             app:layout_constraintLeft_toRightOf="@+id/left"
-            android:layout_marginLeft="31dp" />
+            android:layout_marginLeft="41dp"
+            app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.percent.PercentRelativeLayout>

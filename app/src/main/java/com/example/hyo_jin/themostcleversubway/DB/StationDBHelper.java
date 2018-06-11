@@ -17,6 +17,8 @@ import org.json.JSONObject;
  * insert() : DB 테이블에 데이터 insert
  * select() : DB 테이블에서 조건검색해서 Cursor 리턴
  * selectAll() : DB에서 모두 검색
+ * selectLeftList() : 검색 프래그먼트에서 왼쪽 리스트뷰를 위한 SQL 검색
+ * selectRightList() : 검색 프래그먼트에서 오른쪽 리스트뷰를 위한 SQL 검색
  */
 
 public class StationDBHelper extends SQLiteOpenHelper {
@@ -120,32 +122,46 @@ public class StationDBHelper extends SQLiteOpenHelper {
             switch (condition) {
                 case "ㄱ":
                     sql.append(" WHERE STATION_NM >='가' AND STATION_NM < '나'");
+                    break;
                 case "ㄴ":
                     sql.append(" WHERE STATION_NM >='나' AND STATION_NM < '다'");
+                    break;
                 case "ㄷ":
                     sql.append(" WHERE STATION_NM >='다' AND STATION_NM < '라'");
+                    break;
                 case "ㄹ":
                     sql.append(" WHERE STATION_NM >='라' AND STATION_NM < '마'");
+                    break;
                 case "ㅁ":
                     sql.append(" WHERE STATION_NM >='마' AND STATION_NM < '바'");
+                    break;
                 case "ㅂ":
                     sql.append(" WHERE STATION_NM >='바' AND STATION_NM < '사'");
+                    break;
                 case "ㅅ":
                     sql.append(" WHERE STATION_NM >='사' AND STATION_NM < '아'");
+                    break;
                 case "ㅇ":
                     sql.append(" WHERE STATION_NM >='아' AND STATION_NM < '자'");
+                    break;
                 case "ㅈ":
                     sql.append(" WHERE STATION_NM >='자' AND STATION_NM < '차'");
+                    break;
                 case "ㅊ":
                     sql.append(" WHERE STATION_NM >='차' AND STATION_NM < '카'");
+                    break;
                 case "ㅋ":
                     sql.append(" WHERE STATION_NM >='카' AND STATION_NM < '타'");
+                    break;
                 case "ㅌ":
                     sql.append(" WHERE STATION_NM >='타' AND STATION_NM < '파'");
+                    break;
                 case "ㅍ":
                     sql.append(" WHERE STATION_NM >='파' AND STATION_NM < '하'");
+                    break;
                 case "ㅎ":
                     sql.append(" WHERE STATION_NM >='하'");
+                    break;
             }
             sql.append(" ORDER BY STATION_NM ASC ");
         }

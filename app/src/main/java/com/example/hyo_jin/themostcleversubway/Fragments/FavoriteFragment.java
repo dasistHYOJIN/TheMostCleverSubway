@@ -19,14 +19,6 @@ import com.example.hyo_jin.themostcleversubway.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavoriteFragment//.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavoriteFragment//#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FavoriteFragment extends Fragment {
 
     private GridView gridView;

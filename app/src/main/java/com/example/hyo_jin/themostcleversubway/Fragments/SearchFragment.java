@@ -1,21 +1,16 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,18 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hyo_jin.themostcleversubway.Activity.ResultActivity;
-import com.example.hyo_jin.themostcleversubway.Activity.TimetablePopup;
-import com.example.hyo_jin.themostcleversubway.DB.StationDBHelper;
-import com.example.hyo_jin.themostcleversubway.Item.FavoriteGridItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * selectDataInDB() : DB에서 데이터 가져와서 리스트에 추가하기
@@ -46,7 +34,6 @@ public class SearchFragment extends Fragment {
     private EditText edit_dep, edit_arr;
     private ImageButton btn_replace, btn_search;
     private Button btn_map, btn_abc, btn_line;
-    private ListView list_lineNum, list_station;
 
     private JSONArray jsonArray;
 
@@ -56,8 +43,20 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         init(view);
 
-        // 지하철역 초기는 1호선으로
-        selectDataInDB("1"); // 데이터베이스에서 지하철역 정보 가져오기
+
+        /**** 검색 조건 리스트 프래그먼트에 외부(?) 프래그먼트 import하기 ****/
+        // Create new fragment and transaction
+        Fragment fragment = new SubSearch1Fragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack if needed
+        fragmentTransaction.add(R.id.list_fragment, fragment);
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
+
 
         btn_replace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,43 +70,54 @@ public class SearchFragment extends Fragment {
                 myOnClick(view);
             }
         });
-
-        list_lineNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                myOnItemClick(adapterView, view, position, id);
+            public void onClick(View view) {
+                myFragmentOnClick(view);
             }
         });
-
-        list_station.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        btn_abc.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                myOnItemClick(adapterView, view, position, id);
+            public void onClick(View view) {
+                myFragmentOnClick(view);
+            }
+        });
+        btn_line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myFragmentOnClick(view);
             }
         });
 
         return view;
     }
 
-    public void myOnItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        switch (adapterView.getId()) {
-            case R.id.list_lineNum :
-                String lineNum = adapterView.getItemAtPosition(position).toString();
-                StationDBHelper dbHelper = new StationDBHelper(getActivity(), null);
+    /* 프래그먼트 선택 버튼 눌렀을 때 */
+    public void myFragmentOnClick(View v) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-                setStationList(dbHelper, lineNum);
-
-                break;
-            case R.id.list_station :
-                String station = adapterView.getItemAtPosition(position).toString();
-
-                edit_dep.setText(station);
+        switch (v.getId()) {
+            case R.id.btn_map :
+                Fragment fragment1 = new SubSearch1Fragment();
+                fragmentTransaction.replace(R.id.list_fragment, fragment1);
 
                 break;
-            default:
-                 break;
+            case R.id.btn_abc :
+                Fragment fragment2 = new SubSearch2Fragment();
+                fragmentTransaction.replace(R.id.list_fragment, fragment2);
+
+                break;
+            case R.id.btn_line :
+                Fragment fragment3 = new SubSearch3Fragment();
+                fragmentTransaction.replace(R.id.list_fragment, fragment3);
+
+                break;
 
         }
+
+        //fragmentTransaction.addToBackStack(null);
+        // Commit the fragment transaction
+        fragmentTransaction.commit();
     }
 
     public void myOnClick(View v) {
@@ -157,62 +167,9 @@ public class SearchFragment extends Fragment {
                 Volley.newRequestQueue(getContext()).add(request);
 
                 break;
-            case R.id.list_lineNum :
-                break;
-            case R.id.list_station :
-                break;
             default:
                 break;
         }
-    }
-
-    /*** DB에서 데이터 가져와서 리스트에 추가하기 ***/
-    protected void selectDataInDB(String lineNum) {
-        StationDBHelper dbHelper = new StationDBHelper(getActivity(), null);
-
-        setLineList(dbHelper);
-        setStationList(dbHelper, lineNum);
-
-        dbHelper.close();
-    }
-
-    public void setLineList(StationDBHelper dbHelper) {
-        SQLiteDatabase database = dbHelper.getReadableDatabase();
-        List<String> linenum = new ArrayList<>(); // 선택기준 리스트뷰 리스트
-
-        Cursor result = dbHelper.selectLeftList(database, false);
-        // 결과 커서를 맨 처음으로 가게 함 -> false일 때는 result(Cursor 객체)가 비어 있는 경우임
-        if(result.moveToFirst()){
-            while (!result.isAfterLast()) {
-                String line_num = result.getString(0);
-
-                linenum.add(line_num);
-                result.moveToNext();
-            }
-            result.close();
-        }
-
-        // 리스트뷰에 리스트 추가
-        ArrayAdapter<String> adapter_linenum = new ArrayAdapter<String>(getContext(), R.layout.listlayout_linenum, R.id.text_subwayvalue, linenum);
-        list_lineNum.setAdapter(adapter_linenum);
-    }
-
-    public void setStationList(StationDBHelper dbHelper, String lineNum) {
-        SQLiteDatabase database = dbHelper.getReadableDatabase();
-        List<String> stationname = new ArrayList<>(); // 지하철역 리스트뷰 리스트
-
-        Cursor result = dbHelper.selectRightList(database, lineNum, false);
-        if(result.moveToFirst()){
-            while (!result.isAfterLast()) {
-                String station_name = result.getString(1);
-
-                stationname.add(station_name);
-                result.moveToNext();
-            }
-            result.close();
-        }
-        ArrayAdapter<String> adapter_linename = new ArrayAdapter<String>(getContext(), R.layout.listlayout_linenum, R.id.text_subwayvalue, stationname);
-        list_station.setAdapter(adapter_linename);
     }
 
     // btn_replace 누르면 출발역 도착역 바꾸기
@@ -239,9 +196,6 @@ public class SearchFragment extends Fragment {
         btn_map.setText("노선도");
         btn_abc.setText("가나다");
         btn_line.setText("호선순");
-
-        list_lineNum = (ListView) view.findViewById(R.id.list_lineNum);
-        list_station = (ListView) view.findViewById(R.id.list_station);
 
     }
 }
