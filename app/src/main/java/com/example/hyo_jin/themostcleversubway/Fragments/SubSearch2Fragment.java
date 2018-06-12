@@ -1,5 +1,6 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,11 +23,31 @@ import java.util.List;
 
 /**
  * This is SubFragment of SearchFragment
+ *
+ * Communicate with MainActivity and Search Fragment
  */
 public class SubSearch2Fragment extends Fragment {
-    private static final String TAG = "SubSearch1Fragment";
+    private static final String TAG = "SubSearch2Fragment";
 
     private ListView list_lineABC, list_stationABC;
+
+    // Define an Interface
+    private OnStationSelectedListener mCallback;
+
+    public interface OnStationSelectedListener {
+        void onStationSelected(String station);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnStationSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStationSelectedListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -50,6 +71,7 @@ public class SubSearch2Fragment extends Fragment {
             }
         });
 
+
         return view;
     }
 
@@ -64,17 +86,12 @@ public class SubSearch2Fragment extends Fragment {
                 break;
             case R.id.list_stationABC :
                 String station = adapterView.getItemAtPosition(position).toString();
-                break;
-            default:
-                break;
-        }
-    }
 
-    public void myOnClick(View v) {
-        switch (v.getId()) {
-            case R.id.list_lineNum :
-                break;
-            case R.id.list_station :
+                Log.v(TAG, station);
+
+                // Send the event to the host activity
+                mCallback.onStationSelected(station);
+
                 break;
             default:
                 break;
@@ -129,7 +146,7 @@ public class SubSearch2Fragment extends Fragment {
             result.close();
         }
         else {
-            stationname.add("초성이 \'" + lineABC + "\'인 지하철역이 없어요!");
+            stationname.add(lineABC + "으로 시작하는 지하철역이 없어요!");
         }
         ArrayAdapter<String> adapter_linename = new ArrayAdapter<String>(getContext(), R.layout.listlayout_linenum, R.id.text_subwayvalue, stationname);
         list_stationABC.setAdapter(adapter_linename);

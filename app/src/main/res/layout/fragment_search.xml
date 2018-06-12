@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment">
+    android:id="@+id/fragment_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment">
 
 
     <LinearLayout
@@ -44,7 +45,7 @@ tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment"
 
     </LinearLayout>
 
-<!--    <LinearLayout
+    <!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -117,10 +118,10 @@ tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment"
         android:orientation="horizontal">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+            android:id="@+id/list_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
         <!--android:name="com.example.hyo_jin.themostcleversubway.Fragments.SubSearch1Fragment"-->
 
 

@@ -1,5 +1,6 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,7 +53,6 @@ public class SearchFragment extends Fragment {
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack if needed
         fragmentTransaction.add(R.id.list_fragment, fragment);
-        fragmentTransaction.addToBackStack(null);
 
         // Commit the transaction
         fragmentTransaction.commit();
@@ -90,6 +90,16 @@ public class SearchFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void onToast(String station) {
+        Log.v(TAG, "0 : " + station);
+        Toast.makeText(getContext(), "클릭한 지하철역 이름은 " + station, Toast.LENGTH_SHORT).show();
+        Log.v(TAG, "1 : " + station);
+        edit_arr.setText(station);
+        Log.v(TAG, "2 : " + station);
+        edit_dep.setText(station);
+        Log.v(TAG, "3 : " + station);
     }
 
     /* 프래그먼트 선택 버튼 눌렀을 때 */

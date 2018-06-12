@@ -2,6 +2,7 @@ package com.example.hyo_jin.themostcleversubway.Activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,13 +19,15 @@ import com.example.hyo_jin.themostcleversubway.Adapter.SectionsPagerAdapter;
 import com.example.hyo_jin.themostcleversubway.Fragments.FavoriteFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.HistoryFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment;
+import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch2Fragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.TestFragment;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SubSearch2Fragment.OnStationSelectedListener {
+    private static final String TAG = "MainActivity";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -52,6 +55,34 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    // Receive datas from SubSearchFragments
+    // and Deliver to SubFragment
+    public void onStationSelected(String station) {
+        Log.v(TAG, station);
+
+        SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
+
+        if (searchFragment != null) {
+            Log.v(TAG, "searchFragment는 null이 아니야");
+            searchFragment.onToast(station);
+        } else {
+            Log.v(TAG, "searchFragment는 null이야");
+            searchFragment = new SearchFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("station_name", station);
+            searchFragment.setArguments(bundle);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragment_search, new SearchFragment()); // R.id.fragment_search를 다른걸로 바꿔야돼
+
+            // Commit the transaction
+            transaction.commit();
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
