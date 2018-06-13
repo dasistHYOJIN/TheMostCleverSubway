@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hyo_jin.themostcleversubway.DB.StationDBHelper;
 import com.example.hyo_jin.themostcleversubway.R;
@@ -38,6 +39,8 @@ public class SubSearch2Fragment extends Fragment {
         void onStationSelected(String station);
     }
 
+    // 프래그먼트가 처음으로 액티비티에 부착될 때 호출됨
+    // 시작단계에서 가장 먼저 어떤 액티비티에 붙을 것인지 결정
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -71,7 +74,6 @@ public class SubSearch2Fragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -87,8 +89,14 @@ public class SubSearch2Fragment extends Fragment {
             case R.id.list_stationABC :
                 String station = adapterView.getItemAtPosition(position).toString();
 
-                Log.v(TAG, station);
+                if (station.endsWith("없어요!")) {
+                    Log.v(TAG, "0");
+                    Toast.makeText(getContext(), "지하철역을 선택해주세요", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG, "1");
+                    return;
+                }
 
+                Log.v(TAG, station);
                 // Send the event to the host activity
                 mCallback.onStationSelected(station);
 
@@ -138,7 +146,8 @@ public class SubSearch2Fragment extends Fragment {
         Cursor result = dbHelper.selectRightList(database, lineABC, true);
         if(result.moveToFirst()){
             while (!result.isAfterLast()) {
-                String station_name = result.getString(1);
+                //String station_name = result.getString(1);
+                String station_name = result.getString(0);
                 stationname.add(station_name);
 
                 result.moveToNext();

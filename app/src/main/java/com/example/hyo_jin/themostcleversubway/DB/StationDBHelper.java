@@ -115,7 +115,8 @@ public class StationDBHelper extends SQLiteOpenHelper {
     public Cursor selectRightList(SQLiteDatabase db, String condition, boolean flag) {
         StringBuffer sql = new StringBuffer();
 
-        sql.append(" SELECT DISTINCT STATION_CD, STATION_NM ");
+        //sql.append(" SELECT DISTINCT STATION_CD, STATION_NM ");
+        sql.append(" SELECT DISTINCT STATION_NM ");
         sql.append(" FROM STATION_INFO ");
         // flag가 true면 가나다순 false면 호선순
         if (flag) {

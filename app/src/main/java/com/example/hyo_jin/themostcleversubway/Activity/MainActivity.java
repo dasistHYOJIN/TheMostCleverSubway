@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +20,14 @@ import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch2Fragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.TestFragment;
 import com.example.hyo_jin.themostcleversubway.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements SubSearch2Fragment.OnStationSelectedListener {
     private static final String TAG = "MainActivity";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
+
+    SearchFragment searchFragment = new SearchFragment();
 
     // Tab Titles
     private String[] tabs = {"즐겨찾기", "검색", "검색기록", "테스트용"};
@@ -60,13 +56,12 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
     // Receive datas from SubSearchFragments
     // and Deliver to SubFragment
     public void onStationSelected(String station) {
-        Log.v(TAG, station);
 
-        SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
+        Log.v(TAG, station);
 
         if (searchFragment != null) {
             Log.v(TAG, "searchFragment는 null이 아니야");
-            searchFragment.onToast(station);
+            searchFragment.onStationClick(station);
         } else {
             Log.v(TAG, "searchFragment는 null이야");
             searchFragment = new SearchFragment();
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FavoriteFragment(), tabs[0]);
-        adapter.addFragment(new SearchFragment(), tabs[1]);
+        adapter.addFragment(searchFragment, tabs[1]);
         adapter.addFragment(new HistoryFragment(), tabs[2]);
         adapter.addFragment(new TestFragment(), tabs[3]);
 

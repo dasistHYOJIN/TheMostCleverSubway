@@ -130,7 +130,8 @@ public class SubSearch3Fragment extends Fragment {
         Cursor result = dbHelper.selectRightList(database, lineNum, false);
         if(result.moveToFirst()){
             while (!result.isAfterLast()) {
-                String station_name = result.getString(1);
+                //String station_name = result.getString(1);
+                String station_name = result.getString(0);
 
                 stationname.add(station_name);
                 result.moveToNext();

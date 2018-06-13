@@ -1,6 +1,5 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +27,7 @@ import org.json.JSONObject;
 /**
  * selectDataInDB() : DB에서 데이터 가져와서 리스트에 추가하기
  * init() : 컴포넌트 초기화
+ * 프래그먼트 > 액티비티 > 프래그먼트 : https://developer.android.com/training/basics/fragments/communicating?hl=ko
  */
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -44,7 +44,6 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         init(view);
 
-
         /**** 검색 조건 리스트 프래그먼트에 외부(?) 프래그먼트 import하기 ****/
         // Create new fragment and transaction
         Fragment fragment = new SubSearch1Fragment();
@@ -56,7 +55,6 @@ public class SearchFragment extends Fragment {
 
         // Commit the transaction
         fragmentTransaction.commit();
-
 
         btn_replace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,14 +90,8 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public void onToast(String station) {
-        Log.v(TAG, "0 : " + station);
-        Toast.makeText(getContext(), "클릭한 지하철역 이름은 " + station, Toast.LENGTH_SHORT).show();
-        Log.v(TAG, "1 : " + station);
-        edit_arr.setText(station);
-        Log.v(TAG, "2 : " + station);
-        edit_dep.setText(station);
-        Log.v(TAG, "3 : " + station);
+    public void onStationClick(String station) {
+        ((EditText) getActivity().getCurrentFocus()).setText(station);
     }
 
     /* 프래그먼트 선택 버튼 눌렀을 때 */
@@ -125,7 +117,6 @@ public class SearchFragment extends Fragment {
 
         }
 
-        //fragmentTransaction.addToBackStack(null);
         // Commit the fragment transaction
         fragmentTransaction.commit();
     }
@@ -194,8 +185,11 @@ public class SearchFragment extends Fragment {
     // 컴포넌트 초기화
     protected void init(View view) {
 
-        edit_arr = (EditText) view.findViewById(R.id.edit_arr);
         edit_dep = (EditText) view.findViewById(R.id.edit_dep);
+        edit_arr = (EditText) view.findViewById(R.id.edit_arr);
+        // 클릭해도 키보드 안나오게
+        edit_dep.setInputType(0);
+        edit_arr.setInputType(0);
 
         btn_replace = (ImageButton) view.findViewById(R.id.btn_replace);
         btn_search = (ImageButton) view.findViewById(R.id.btn_search);
@@ -206,6 +200,5 @@ public class SearchFragment extends Fragment {
         btn_map.setText("노선도");
         btn_abc.setText("가나다");
         btn_line.setText("호선순");
-
     }
 }
