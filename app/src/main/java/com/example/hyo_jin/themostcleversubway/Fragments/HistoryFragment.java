@@ -26,7 +26,7 @@ public class HistoryFragment extends Fragment {
 
     private View result;
     private ExpandableListView expandableListView;
-    private ImageButton btn_timetable;
+    //private ImageButton btn_timetable;
 
     String[] arProv = new String[] { "ㄱ", "ㄴ", "ㄷ" };
     String[][] arCity = new String[][] {
@@ -65,18 +65,6 @@ public class HistoryFragment extends Fragment {
         expandableListView.setAdapter(adapter);
         /************************************/
 
-        Log.v(TAG, btn_timetable == null ? "Null" : "Not Null");
-
-        btn_timetable.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Log.v(TAG, "클릭됨");
-                Toast.makeText(getActivity(), TAG + " 프래그먼트에서 시간표 액티비티를 띄워봄", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(HistoryFragment.super.getContext(), TimetablePopup.class));
-            }
-        });
-
         return view;
     }
 
@@ -84,7 +72,7 @@ public class HistoryFragment extends Fragment {
         result = getLayoutInflater().inflate(R.layout.fragment_result, null, false);
 
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandablelistview_history);
-        btn_timetable = (ImageButton) result.findViewById(R.id.btn_timetable);
+
         //Log.v(TAG, String.valueOf(result.findViewById(R.id.btn_timetable)));
     }
 

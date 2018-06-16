@@ -24,7 +24,6 @@ import org.json.JSONObject;
 public class StationDBHelper extends SQLiteOpenHelper {
 
     final private String TAG = "StationDBHelper";
-    private Context context;
     private JSONArray jsonArray;
 
     public StationDBHelper(Context context) {
@@ -32,7 +31,7 @@ public class StationDBHelper extends SQLiteOpenHelper {
     }
 
     public StationDBHelper(Context context, JSONArray jsonArray) {
-        super(context, "themostcleversubway.db", null, 1);
+        super(context, "themostclever.db", null, 1);
         this.jsonArray = jsonArray;
     }
 
@@ -79,25 +78,6 @@ public class StationDBHelper extends SQLiteOpenHelper {
 
     }
 
-   /* public void insert(SQLiteDatabase db, int station_cd, String line_num, String station_nm, String fr_code) {
-
-        // 이미 DB가 존재하면 함수 종료
-        if (!selectAll(db).moveToFirst()) return;
-
-
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append(" INSERT INTO STATION_INFO ( ");
-        buffer.append(" STATION_CD, LINE_NUM, STATION_NM, FR_CODE ) ");
-        buffer.append(" VALUES ( " + station_cd + ", \"" + line_num + "\", \"" + station_nm + "\", \"" + fr_code + "\")");
-
-        Log.v(TAG, buffer.toString());
-
-        //db.execSQL(buffer.toString());
-        Log.v(TAG, "Insert 쿼리 생성완료!");
-
-    }*/
-
     // 검색 프래그먼트에서 왼쪽 리스트뷰를 위한 SQL 검색
     public Cursor selectLeftList(SQLiteDatabase db, boolean flag) {
         //* STATION_CD INTEGER, LINE_NUM TEXT, STATION_NM TEXT, FR_CODE TEXT
@@ -108,6 +88,8 @@ public class StationDBHelper extends SQLiteOpenHelper {
         sql.append(" ORDER BY FR_CODE ASC ");
 
         Cursor result = db.rawQuery(sql.toString(), null);
+
+        Log.v(TAG, "왼쪽 리스트뷰 검색 끝");
         return result;
     }
 
@@ -172,6 +154,9 @@ public class StationDBHelper extends SQLiteOpenHelper {
         }
 
         Cursor result = db.rawQuery(sql.toString(), null);
+
+
+        Log.v(TAG, "오른쪽 리스트뷰 검색 끝");
         return result;
     }
 

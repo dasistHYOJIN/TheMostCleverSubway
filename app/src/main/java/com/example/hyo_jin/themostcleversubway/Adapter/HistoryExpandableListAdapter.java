@@ -88,8 +88,8 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
             view = layout.inflate(R.layout.listlayout_history_child, null);
         }
 
-        TextView course = (TextView) view.findViewById(R.id.text_child_course);
-        course.setText((String) getChild(groupPosition, childPosition));
+        //TextView course = (TextView) view.findViewById(R.id.text_child_course);
+        //course.setText((String) getChild(groupPosition, childPosition));
 
         return view;
     }

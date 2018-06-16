@@ -2,6 +2,7 @@ package com.example.hyo_jin.themostcleversubway.Activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +16,14 @@ import android.view.MenuItem;
 import com.example.hyo_jin.themostcleversubway.Adapter.SectionsPagerAdapter;
 import com.example.hyo_jin.themostcleversubway.Fragments.FavoriteFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.HistoryFragment;
+import com.example.hyo_jin.themostcleversubway.Fragments.ResultFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch2Fragment;
+import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch3Fragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.TestFragment;
 import com.example.hyo_jin.themostcleversubway.R;
 
-public class MainActivity extends AppCompatActivity implements SubSearch2Fragment.OnStationSelectedListener {
+public class MainActivity extends AppCompatActivity implements SubSearch2Fragment.OnStationSelectedListener, SubSearch3Fragment.OnStationSelectedListener {
     private static final String TAG = "MainActivity";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -52,6 +55,19 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
+/*    public void setResultFragment(Bundle bundle) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ResultFragment resultFragment = new ResultFragment();
+        resultFragment.setArguments(bundle);
+        Log.v(TAG, bundle.getString("station_dep"));
+
+        fragmentTransaction.replace(R.id.container, resultFragment);
+
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
+    }*/
 
     // Receive datas from SubSearchFragments
     // and Deliver to SubFragment

@@ -1,5 +1,6 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hyo_jin.themostcleversubway.DB.StationDBHelper;
 import com.example.hyo_jin.themostcleversubway.R;
@@ -28,11 +30,29 @@ import java.util.List;
  */
 
 public class SubSearch3Fragment extends Fragment {
-    private static final String TAG = "SubSearch1Fragment";
+    private static final String TAG = "SubSearch3Fragment";
 
     private ListView list_lineNum, list_station;
 
-    private JSONArray jsonArray;
+    // Define an Interface
+    private SubSearch3Fragment.OnStationSelectedListener mCallback;
+
+    public interface OnStationSelectedListener {
+        void onStationSelected(String station);
+    }
+
+    // 프래그먼트가 처음으로 액티비티에 부착될 때 호출됨
+    // 시작단계에서 가장 먼저 어떤 액티비티에 붙을 것인지 결정
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (SubSearch3Fragment.OnStationSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStationSelectedListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -72,23 +92,14 @@ public class SubSearch3Fragment extends Fragment {
             case R.id.list_station :
                 String station = adapterView.getItemAtPosition(position).toString();
 
-                //edit_dep.setText(station);
+                Log.v(TAG, station);
+                // Send the event to the host activity
+                mCallback.onStationSelected(station);
 
                 break;
             default:
                 break;
 
-        }
-    }
-
-    public void myOnClick(View v) {
-        switch (v.getId()) {
-            case R.id.list_lineNum :
-                break;
-            case R.id.list_station :
-                break;
-            default:
-                break;
         }
     }
 
