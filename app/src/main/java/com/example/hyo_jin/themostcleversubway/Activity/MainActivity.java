@@ -56,19 +56,6 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
         setSupportActionBar(toolbar);
     }
 
-/*    public void setResultFragment(Bundle bundle) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        ResultFragment resultFragment = new ResultFragment();
-        resultFragment.setArguments(bundle);
-        Log.v(TAG, bundle.getString("station_dep"));
-
-        fragmentTransaction.replace(R.id.container, resultFragment);
-
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.commit();
-    }*/
-
     // Receive datas from SubSearchFragments
     // and Deliver to SubFragment
     public void onStationSelected(String station) {
@@ -101,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
         adapter.addFragment(new FavoriteFragment(), tabs[0]);
         adapter.addFragment(searchFragment, tabs[1]);
         adapter.addFragment(new HistoryFragment(), tabs[2]);
-        adapter.addFragment(new TestFragment(), tabs[3]);
+        //adapter.addFragment(new TestFragment(), tabs[3]);
 
         viewPager.setAdapter(adapter);
     }

@@ -48,9 +48,9 @@ public class ResultActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     /** 플젝용 (졸프ㄴㄴ) **/
-    private EditText edit_addr, edit_add;
+    /*private EditText edit_addr, edit_add;
     private Button btn_sbm, btn_add;
-    private TextView text_result;
+    private TextView text_result;*/
     /** 플젝용 (졸프ㄴㄴ) **/
 
     @Override
@@ -61,6 +61,7 @@ public class ResultActivity extends AppCompatActivity {
         init();
 
         /** 플젝용 **/
+/*
 
         btn_sbm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +164,7 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+*/
 
         /** 플젝용 **/
 
@@ -203,12 +205,12 @@ public class ResultActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
 
         // 플젝용 (졸프ㄴㄴ)
-        edit_addr = (EditText) findViewById(R.id.edit_addr);
+        /*edit_addr = (EditText) findViewById(R.id.edit_addr);
         btn_sbm = (Button) findViewById(R.id.btn_sbm);
         edit_add = (EditText) findViewById(R.id.edit_add);
         btn_add = (Button) findViewById(R.id.btn_add);
         text_result = (TextView) findViewById(R.id.text_result);
-        text_result.setText("");
+        text_result.setText("");*/
 
     }
 

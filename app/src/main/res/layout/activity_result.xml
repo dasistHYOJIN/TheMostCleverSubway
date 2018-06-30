@@ -22,7 +22,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.hyo_jin.themostcleversubway.Fragments.ResultFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+<!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -34,7 +41,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:text="http://172.16.12.105:3000/process/adddevice" />
-            <!--android:text="http://192.168.0.33:3000/process/listuser"-->
+            &lt;!&ndash;android:text="http://192.168.0.33:3000/process/listuser"&ndash;&gt;
 
         <Button
             android:id="@+id/btn_sbm"
@@ -85,18 +92,6 @@
                 android:text="TextView"
                 android:textSize="20dp" />
         </LinearLayout>
-    </ScrollView>
-
-    <!--
-
-    edit_addr = (EditText) findViewById(R.id.edit_addr);
-    btn_sbm = (Button) findViewById(R.id.btn_sbm);
-    edit_add = (EditText) findViewById(R.id.edit_add);
-    btn_add = (Button) findViewById(R.id.btn_add);
-    text_result = (TextView) findViewById(R.id.text_result);
--->
-
-    <!--<include layout="@layout/content_result"
-        android:id="@+id/include" />-->
+    </ScrollView>-->
 
 </LinearLayout>
