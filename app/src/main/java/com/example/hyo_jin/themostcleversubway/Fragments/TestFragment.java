@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 
-import com.example.hyo_jin.themostcleversubway.Adapter.TestAdapter;
+import com.example.hyo_jin.themostcleversubway.Adapter.RecyclerviewAdapter;
 import com.example.hyo_jin.themostcleversubway.Item.ResultItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
@@ -22,10 +22,14 @@ public class TestFragment extends Fragment {
 
     private static final String TAG = "TestFragment";
 
-    private RecyclerView recyclerView;
+/*    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ListView listview_test;
+    private RecyclerView.LayoutManager layoutManager;*/
+    private ProgressBar progressBar;
+
+    private int progressStatus = 0;
+
+    List<ResultItem> result = new ArrayList<>();
 
     @Nullable
     @Override
@@ -34,46 +38,30 @@ public class TestFragment extends Fragment {
 
         init(view);
 
+        progressBar.setProgress(87);
+/*        recyclerView.setHasFixedSize(true);
+
         String[] lefttime = {"3분 12초", "6분 9초"};
-
-        List<ResultItem> result = new ArrayList<>();
-        ResultItem item1 = new ResultItem(1, "구파발", "대화행", lefttime, -1, null, null);
-        ResultItem item2 = new ResultItem(2, null, null, null, 4, "2-6", "8-4");
-        ResultItem item3 = new ResultItem(1, "약수역", "봉화산행", lefttime, -1, null, null);
-        ResultItem item4 = new ResultItem(2, null, null, null, 4, "2-6", "8-4");
-        ResultItem item5 = new ResultItem(3, "태릉입구역", null, lefttime, -1, null, null);
-
-        result.add(item1);
-        result.add(item2);
-        result.add(item3);
-        result.add(item4);
-        result.add(item5);
-
-        TestAdapter adapter = new TestAdapter(getContext(), result);
-
-        listview_test.setAdapter(adapter);
-
-        /*
-
-        FavoriteGridAdapter adapter = new FavoriteGridAdapter(this.getContext(), R.layout.gridlayout_favorite, data);
-        gridView.setAdapter(adapter);
-        * */
-
+        result.add(new ResultItem(1, "구파발", "대화행", lefttime, -1, null, null));
+        result.add(new ResultItem(2, null, null, null, 5, "2-6", "8-4"));
+        result.add(new ResultItem(1, "약수", "봉화산행", lefttime, -1, null, null));
+        result.add(new ResultItem(2, null, null, null, 3, "2-6", "8-4"));
+        result.add(new ResultItem(3, "태릉입구", "", lefttime, -1, null, null));
 
         // use a linear layout manager
-        /*layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        adapter = new MyAdapter(station_dep, station_arr, station_trans, direction, left, bestseat, fastseat);
+        adapter = new RecyclerviewAdapter(result);
         recyclerView.setAdapter(adapter);*/
 
         return view;
     }
 
     protected void init(View view) {
-        //recyclerView = (RecyclerView) view.findViewById(R.id.test_recycler);
-        listview_test = (ListView) view.findViewById(R.id.listview_test);
+        //recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
     }
 
 }

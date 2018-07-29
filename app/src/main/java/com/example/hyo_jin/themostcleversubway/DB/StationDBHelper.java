@@ -31,7 +31,7 @@ public class StationDBHelper extends SQLiteOpenHelper {
     }
 
     public StationDBHelper(Context context, JSONArray jsonArray) {
-        super(context, "themostclever.db", null, 1);
+        super(context, "subway.db", null, 1);
         this.jsonArray = jsonArray;
     }
 

@@ -1,5 +1,6 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.hyo_jin.themostcleversubway.Activity.ResultActivity;
+import com.example.hyo_jin.themostcleversubway.Item.FavoriteGridItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
 /**
@@ -90,17 +93,17 @@ public class SearchFragment extends Fragment {
         switch (v.getId()) {
             case R.id.btn_map :
                 Fragment fragment1 = new SubSearch1Fragment();
-                fragmentTransaction.replace(R.id.list_fragment, fragment1);
+                fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.list_fragment)).replace(R.id.list_fragment, fragment1);
 
                 break;
             case R.id.btn_abc :
                 Fragment fragment2 = new SubSearch2Fragment();
-                fragmentTransaction.replace(R.id.list_fragment, fragment2);
+                fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.list_fragment)).replace(R.id.list_fragment, fragment2);
 
                 break;
             case R.id.btn_line :
                 Fragment fragment3 = new SubSearch3Fragment();
-                fragmentTransaction.replace(R.id.list_fragment, fragment3);
+                fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.list_fragment)).replace(R.id.list_fragment, fragment3);
 
                 break;
         }
@@ -119,13 +122,18 @@ public class SearchFragment extends Fragment {
                 String depart = edit_dep.getText().toString();
                 String arrive = edit_arr.getText().toString();
 
+                Intent intent = new Intent(SearchFragment.super.getContext(), ResultActivity.class);
+                intent.putExtra("station_dep", depart);
+                intent.putExtra("station_arr", arrive);
+                startActivity(intent);
+
                 // ResultFragment가 이미 떠있으면 실행ㄴㄴ
-                if (getFragmentManager().findFragmentById(R.id.list_fragment).getClass() != ResultFragment.class) {
+                /*if (getFragmentManager().findFragmentById(R.id.list_fragment).getClass() != ResultFragment.class) {
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.list_fragment, new ResultFragment(depart, arrive));
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                }
+                }*/
                 break;
             default:
                 break;

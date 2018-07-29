@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        //menu.add(0, 1234, 1, "Setti");
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

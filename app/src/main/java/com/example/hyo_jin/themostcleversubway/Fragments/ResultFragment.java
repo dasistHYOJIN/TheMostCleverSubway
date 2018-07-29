@@ -2,11 +2,12 @@ package com.example.hyo_jin.themostcleversubway.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,7 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hyo_jin.themostcleversubway.Adapter.TestAdapter;
+import com.example.hyo_jin.themostcleversubway.Adapter.RecyclerviewAdapter;
 import com.example.hyo_jin.themostcleversubway.Item.ResultItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
@@ -32,7 +33,11 @@ public class ResultFragment extends Fragment {
 
     final String TAG = "ResultFragment";
 
-    private ListView listview_test;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    private List<ResultItem> result = new ArrayList<>();
     private JSONArray jsonArray;
 
     private String depart, arrive;
@@ -50,9 +55,15 @@ public class ResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_result, container, false);
         init(view);
 
-        Log.v(TAG, "짠");
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
 
         setResultJSON(depart, arrive);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         return view;
     }
@@ -95,12 +106,13 @@ public class ResultFragment extends Fragment {
             e.printStackTrace();
         }
 
-        TestAdapter adapter = new TestAdapter(getContext(), result);
-        listview_test.setAdapter(adapter);
+        // specify an adapter (see also next example)
+        adapter = new RecyclerviewAdapter(result);
+        recyclerView.setAdapter(adapter);
     }
 
     public void setResultJSON(String depart, String arrive) {
-        String api_url = "http://swopenapi.seoul.go.kr/api/subway/apikey/"
+        String api_url = "http://swopenapi.seoul.go.kr/api/subway/6e48535a78686765353479756b6b67/"
                 + "json/shortestRoute/0/2/" + depart + "/" + arrive;
         Log.v(TAG, api_url);
 
@@ -137,8 +149,7 @@ public class ResultFragment extends Fragment {
     }
 
     protected void init(View view) {
-        listview_test = (ListView) view.findViewById(R.id.listview_test);
+        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
     }
-
 
 }

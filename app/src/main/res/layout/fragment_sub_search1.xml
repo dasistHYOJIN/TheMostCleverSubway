@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     tools:context="com.example.hyo_jin.themostcleversubway.Fragments.SubSearch1Fragment">
 
-    <ImageView
-        android:id="@+id/imageView7"
+
+    <!--<ImageView
+        android:id="@+id/subway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/subway" />
+        app:srcCompat="@mipmap/subway" />-->
 
-    <!--    <TextView
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photo_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment to print map" />-->
-
+        android:layout_height="match_parent" />
 </RelativeLayout>

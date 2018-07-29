@@ -3,6 +3,7 @@ package com.example.hyo_jin.themostcleversubway.Fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -86,6 +87,15 @@ public class SubSearch3Fragment extends Fragment {
                 String lineNum = adapterView.getItemAtPosition(position).toString();
                 StationDBHelper dbHelper = new StationDBHelper(getActivity(), null);
 
+                // 선택한 기준(가나다순이거나 호선순)에 색칠하기
+                for (int i = 0; i < adapterView.getChildCount(); i++) {
+                    if(position == i )
+                        adapterView.getChildAt(i).setBackgroundColor(Color.YELLOW);
+                    else
+                        adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                // 역 리스트 뿌리기
                 setStationList(dbHelper, lineNum);
 
                 break;
@@ -123,6 +133,51 @@ public class SubSearch3Fragment extends Fragment {
             while (!result.isAfterLast()) {
                 String line_num = result.getString(0);
 
+                switch (line_num) {
+                    case "UI" :
+                        line_num = "우이선";
+                        break;
+                    case "A" :
+                        line_num = "공항";
+                        break;
+                    case "S" :
+                        line_num = "우이선";
+                        break;
+                    case "I" :
+                        line_num = "인천1호선";
+                        break;
+                    case "I2" :
+                        line_num = "인천2호선";
+                        break;
+                    case "K" :
+                        line_num = "경의중앙선";
+                        break;
+                    case "B" :
+                        line_num = "분당선";
+                        break;
+                    case "SU" :
+                        line_num = "수인선";
+                        break;
+                    case "KK" :
+                        line_num = "경강선";
+                        break;
+                    case "G" :
+                        line_num = "경춘선";
+                        break;
+                    case "T" :
+                        line_num = "테스트";
+                        break;
+                    case "U" :
+                        line_num = "의정부";
+                        break;
+                    case "E" :
+                        line_num = "에버라인";
+                        break;
+                    default:
+                        line_num += "호선";
+                        break;
+                }
+
                 linenum.add(line_num);
                 result.moveToNext();
             }
@@ -138,7 +193,53 @@ public class SubSearch3Fragment extends Fragment {
         SQLiteDatabase database = dbHelper.getReadableDatabase();
         List<String> stationname = new ArrayList<>(); // 지하철역 리스트뷰 리스트
 
-        Cursor result = dbHelper.selectRightList(database, lineNum, false);
+        String line_num;
+        switch (lineNum) {
+            case "우이선" :
+                line_num = "UI";
+                break;
+            case "공항" :
+                line_num = "A";
+                break;
+            case "S" :
+                line_num = "우이선";
+                break;
+            case "인천1호선" :
+                line_num = "I";
+                break;
+            case "인천2호선" :
+                line_num = "I2";
+                break;
+            case "경의중앙선" :
+                line_num = "K";
+                break;
+            case "분당선" :
+                line_num = "B";
+                break;
+            case "수인선" :
+                line_num = "SU";
+                break;
+            case "경강선" :
+                line_num = "KK";
+                break;
+            case "경춘선" :
+                line_num = "G";
+                break;
+            case "테스트" :
+                line_num = "T";
+                break;
+            case "의정부" :
+                line_num = "U";
+                break;
+            case "에버라인" :
+                line_num = "E";
+                break;
+            default:
+                line_num = lineNum.substring(0, 1);
+                break;
+        }
+
+        Cursor result = dbHelper.selectRightList(database, line_num, false);
         if(result.moveToFirst()){
             while (!result.isAfterLast()) {
                 //String station_name = result.getString(1);

@@ -3,6 +3,7 @@ package com.example.hyo_jin.themostcleversubway.Fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -83,6 +84,18 @@ public class SubSearch2Fragment extends Fragment {
                 String lineABC = adapterView.getItemAtPosition(position).toString();
                 StationDBHelper dbHelper = new StationDBHelper(getActivity(), null);
 
+                Log.v(TAG, "position : " + adapterView.getCount());
+
+                // 선택한 기준(가나다순이거나 호선순)에 색칠하기
+                /*for (int i = 0; i <= adapterView.getLastVisiblePosition(); i++) {
+                    Log.v(TAG, "i : " + i);
+                    if(position == i)
+                        adapterView.getChildAt(i).setBackgroundColor(Color.YELLOW);
+                    else
+                        adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }*/
+
+                // 역 리스트 뿌리기
                 setStationList(dbHelper, lineABC);
 
                 break;

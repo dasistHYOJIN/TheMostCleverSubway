@@ -30,7 +30,7 @@ public class FavoriteFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         Fragment fragment;
 
@@ -54,8 +54,11 @@ public class FavoriteFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                startActivity(new Intent(FavoriteFragment.super.getContext(), ResultActivity.class));
-                Toast.makeText(getActivity(), ((FavoriteGridItem)adapterView.getItemAtPosition(position)).getStation1(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(FavoriteFragment.super.getContext(), ResultActivity.class);
+                intent.putExtra("station_dep", ((FavoriteGridItem) adapterView.getItemAtPosition(position)).getStation1());
+                intent.putExtra("station_arr", ((FavoriteGridItem) adapterView.getItemAtPosition(position)).getStation2());
+                startActivity(intent);
+                //Toast.makeText(getActivity(), ((FavoriteGridItem)adapterView.getItemAtPosition(position)).getStation1(), Toast.LENGTH_SHORT).show();
             }
         });
 

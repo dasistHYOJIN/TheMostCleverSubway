@@ -18,6 +18,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        // Image pinch to zoom library
+        maven { url "https://jitpack.io" }
     }
 }
 

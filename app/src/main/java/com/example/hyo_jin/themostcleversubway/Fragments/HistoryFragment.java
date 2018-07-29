@@ -28,8 +28,8 @@ public class HistoryFragment extends Fragment {
     private ExpandableListView expandableListView;
     //private ImageButton btn_timetable;
 
-    String[] arProv = new String[] { "ㄱ", "ㄴ", "ㄷ" };
-    String[][] arCity = new String[][] {
+    String[] history = new String[] { "ㄱ", "ㄴ", "ㄷ" };
+    String[][] route = new String[][] {
             {"A"},
             {"B"},
             {"C"}
@@ -47,15 +47,15 @@ public class HistoryFragment extends Fragment {
         Map<String, List<String>> cityData = new HashMap<>();
 
         // Adding Group Data
-        for (int i = 0; i < arProv.length; i++) {
-            provData.add(arProv[i]);
+        for (int i = 0; i < history.length; i++) {
+            provData.add(history[i]);
 
             // Adding Child Data
             List<String> city = new ArrayList<>();
-            for (int j = 0; j < arCity[i].length; j++) {
-                city.add(arCity[i][j]);
+            for (int j = 0; j < route[i].length; j++) {
+                city.add(route[i][j]);
             }
-            cityData.put(arProv[i], city);
+            cityData.put(history[i], city);
         }
 
         HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(getContext(), provData, cityData);

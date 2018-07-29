@@ -1,20 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A RecyclerView with some commonly used attributes -->
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.hyo_jin.themostcleversubway.Fragments.TestFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
-        android:id="@+id/listview_test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-<!--
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/test_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-        <!--app:layoutManager="LinearLayoutManager" />-->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/vertical_progressbar_states" />
 
 </LinearLayout>
+<!--
+<android.support.v7.widget.RecyclerView android:id="@+id/my_recycler_view"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+</android.support.v7.widget.RecyclerView>-->

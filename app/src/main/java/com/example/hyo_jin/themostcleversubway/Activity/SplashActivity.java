@@ -5,17 +5,24 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hyo_jin.themostcleversubway.DB.StationDBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
@@ -28,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         // 스플래시 화면은 뷰를 inflate 하지 않음 : setContentView(R.layout.activity_splash);
 
         getSubwayData(); // 서버에 접속해서 json 데이터 가져오기
+        getKeyData();
         Log.v(TAG, "JSON 데이터 DB에 넣음!");
 
         try {
@@ -43,10 +51,9 @@ public class SplashActivity extends AppCompatActivity {
         Log.v(TAG, "getSubwayData() 실행");
 
         /*** 서버 연결해서 데이터 받기 ***/
-        String url = "http://192.168.0.33:3000"; // 집IP
-        //String url = "http://192.168.43.1:3000";
+        String url = "http://192.168.0.33:3000/filedownload/lineinfo"; // 집IP
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -57,7 +64,6 @@ public class SplashActivity extends AppCompatActivity {
                             jsonArray = response.getJSONArray("DATA"); // jsonArray에 저장
 
                             Log.v(TAG, "JSON 데이터 이제 DB에 넣을거야");
-                            //insertDataInDB(); // DB에 데이터 넣기
                             StationDBHelper dbHelper = new StationDBHelper(getApplicationContext(), jsonArray);
                             SQLiteDatabase database = dbHelper.getWritableDatabase();
                             Log.v(TAG, "JSON 데이터 들어갔나");
@@ -79,30 +85,32 @@ public class SplashActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-/*    protected void insertDataInDB() {
-        Log.v(TAG, "insertDataInDB() 실행");
-        StationDBHelper dbHelper = new StationDBHelper(this, jsonArray);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
+    protected void getKeyData() {
+        // TODO: 사용자 정보를 넣으면 DB에 존재하는지 확인한 후에 apiKey 전달
+        // TODO: 전달받은 키는 sharedPreference에 넣기
+        Log.v(TAG, "getkeyData() 실행");
 
-        try {
-            // JsonObjectRequest에서 데이터를 못받아왔을 떄
-            if (jsonArray == null) {
-                Log.v(TAG, "JsonObjectRequest에서 데이터를 못받아옴");
-                return;
+        /*** 서버 연결해서 데이터 받기 ***/
+        String url = "http://192.168.0.33:3000/keydownload/seoulKey";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String key = response;
+                        Log.v(TAG, key);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.v(TAG, "웹 서버 서울시 apiKey 데이터요청 실패");
             }
+        });
 
-            // JSONArray 클래스는 JSON 파일에서 배열을 읽어들인다.
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject station = jsonArray.getJSONObject(i);
+        request.setShouldCache(false);
+        Volley.newRequestQueue(this).add(request);
+    }
 
-                dbHelper.insert(database, station.getInt("station_cd"), station.getString("line_num"),
-                        station.getString("station_nm"), station.getString("fr_code"));
-            }
-            Log.v(TAG, "JSON 배열 읽어옴");
-            dbHelper.getReadableDatabase();
-            dbHelper.close();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
+
 }
