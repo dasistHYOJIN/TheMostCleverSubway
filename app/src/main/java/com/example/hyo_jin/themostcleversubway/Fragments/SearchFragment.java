@@ -1,6 +1,7 @@
 package com.example.hyo_jin.themostcleversubway.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.hyo_jin.themostcleversubway.Activity.ResultActivity;
-import com.example.hyo_jin.themostcleversubway.Item.FavoriteGridItem;
 import com.example.hyo_jin.themostcleversubway.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * selectDataInDB() : DB에서 데이터 가져와서 리스트에 추가하기
@@ -25,6 +40,10 @@ import com.example.hyo_jin.themostcleversubway.R;
  */
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
+    private static final String HOST = "http://54.180.32.17:3000";
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
 
     private EditText edit_dep, edit_arr;
     private ImageButton btn_replace, btn_search;
@@ -35,6 +54,9 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         init(view);
+
+        setting = getActivity().getSharedPreferences("setting", MODE_PRIVATE);
+        editor = setting.edit();
 
         /**** 검색 조건 리스트 프래그먼트에 외부(?) 프래그먼트 import하기 ****/
         // Create new fragment and transaction
@@ -122,6 +144,10 @@ public class SearchFragment extends Fragment {
                 String depart = edit_dep.getText().toString();
                 String arrive = edit_arr.getText().toString();
 
+                // 검색기록 추가 함수
+                Log.v(TAG, setting.getString("token", null));
+                add_history(depart, arrive);
+
                 Intent intent = new Intent(SearchFragment.super.getContext(), ResultActivity.class);
                 intent.putExtra("station_dep", depart);
                 intent.putExtra("station_arr", arrive);
@@ -138,6 +164,53 @@ public class SearchFragment extends Fragment {
             default:
                 break;
         }
+    }
+
+    private String getHistoryId() {
+        TimeZone tz;
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHmm");
+
+        tz = TimeZone.getTimeZone("Asia/Seoul");
+        simpleDateFormat.setTimeZone(tz);
+        simpleDateFormat.format(date);
+
+        int random = new Random().nextInt(24)+65;
+
+        return "HT" + simpleDateFormat.format(date) + (char)random;
+    }
+
+    private void add_history(String depart, String arrive) {
+
+        String url = HOST + "/add/history/" + depart +"/" + arrive;
+        Log.v(TAG, "url "+url);
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.v(TAG, "onResponse "+response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.v(TAG, "error "+error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", setting.getString("token", null));
+                params.put("id", getHistoryId());
+
+                return params;
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(getContext()).add(request);
+
     }
 
     // btn_replace 누르면 출발역 도착역 바꾸기

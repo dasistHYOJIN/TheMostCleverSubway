@@ -62,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponse(String response) {
+
                             Log.v(TAG, "onResponse "+response);
 
                             // 서버에서 개인 토큰값 받으면 SharedPreferences에 저장

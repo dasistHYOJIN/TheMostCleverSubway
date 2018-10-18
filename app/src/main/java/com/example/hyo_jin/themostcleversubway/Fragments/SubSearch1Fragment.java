@@ -34,12 +34,12 @@ public class SubSearch1Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sub_search1, container, false);
         init(view);
 
-        try {
+/*        try {
             photoView.setImageResource(R.drawable.subway);
             photoView.setBackgroundColor(Color.BLACK);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-        }
+        }*/
         /*photoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -58,7 +58,7 @@ public class SubSearch1Fragment extends Fragment {
     // 컴포넌트 초기화
     protected void init(View view) {
         //subway = view.findViewById(R.id.subway);
-        photoView = view.findViewById(R.id.photo_view);
+        //photoView = view.findViewById(R.id.photo_view);
 
     }
 }

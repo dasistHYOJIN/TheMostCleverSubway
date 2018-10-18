@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/fav_insert"
+        android:title="즐겨찾기 등록"/>
+
+    <item android:id="@+id/fav_delete"
+        android:title="즐겨찾기 해제"/>
+
+    <item android:id="@+id/his_remove"
+        android:title="기록 삭제"/>
+
+</menu>
