@@ -2,7 +2,6 @@ package com.example.hyo_jin.themostcleversubway.Fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,12 +21,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hyo_jin.themostcleversubway.Activity.TimetablePopup;
 import com.example.hyo_jin.themostcleversubway.Adapter.HistoryExpandableListAdapter;
-import com.example.hyo_jin.themostcleversubway.DB.StationDBHelper;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import org.json.JSONArray;

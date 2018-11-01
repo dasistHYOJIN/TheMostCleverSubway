@@ -21,7 +21,10 @@ import com.example.hyo_jin.themostcleversubway.Fragments.SearchFragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch2Fragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.SubSearch3Fragment;
 import com.example.hyo_jin.themostcleversubway.Fragments.TestFragment;
+import com.example.hyo_jin.themostcleversubway.MyFirebaseInstanceIDService;
 import com.example.hyo_jin.themostcleversubway.R;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements SubSearch2Fragment.OnStationSelectedListener, SubSearch3Fragment.OnStationSelectedListener {
     private static final String TAG = "MainActivity";
@@ -54,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+        FirebaseInstanceId.getInstance().getToken();
+        Log.v(TAG, FirebaseInstanceId.getInstance().getToken());
     }
 
     // Receive datas from SubSearchFragments
