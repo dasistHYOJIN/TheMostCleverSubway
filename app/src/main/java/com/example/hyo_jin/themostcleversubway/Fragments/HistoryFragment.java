@@ -263,7 +263,7 @@ public class HistoryFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Log.v(TAG, "onResponse "+response);
-                        Toast.makeText(getContext(), "즐겨찾기가 해제되었어요", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "즐겨찾기가 등록/해제되었어요", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override

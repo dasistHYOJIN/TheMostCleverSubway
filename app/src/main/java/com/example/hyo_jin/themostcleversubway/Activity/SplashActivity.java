@@ -165,7 +165,7 @@ public class SplashActivity extends AppCompatActivity {
         /*** 서버 연결해서 데이터 받기 ***/
         String url = HOST + "/key/seoulKey";
 
-        StringRequest request = new StringRequest(Request.Method.GET, url,
+        StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

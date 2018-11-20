@@ -85,13 +85,13 @@
         android:layout_gravity="right"
         android:orientation="horizontal">
 
-        <Button
+        <!--<Button
             android:id="@+id/btn_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="map"
-            android:textSize="10sp" />
+            android:textSize="10sp" />-->
 
         <Button
             android:id="@+id/btn_abc"

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SubSearch2Fragmen
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
         FirebaseInstanceId.getInstance().getToken();
-        Log.v(TAG, FirebaseInstanceId.getInstance().getToken());
+        //Log.v(TAG, FirebaseInstanceId.getInstance().getToken());
     }
 
     // Receive datas from SubSearchFragments

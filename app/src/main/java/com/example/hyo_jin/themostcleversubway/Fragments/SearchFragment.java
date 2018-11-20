@@ -47,7 +47,7 @@ public class SearchFragment extends Fragment {
 
     private EditText edit_dep, edit_arr;
     private ImageButton btn_replace, btn_search;
-    private Button btn_map, btn_abc, btn_line;
+    private Button /*btn_map,*/ btn_abc, btn_line;
 
     @Nullable
     @Override
@@ -60,7 +60,7 @@ public class SearchFragment extends Fragment {
 
         /**** 검색 조건 리스트 프래그먼트에 외부(?) 프래그먼트 import하기 ****/
         // Create new fragment and transaction
-        Fragment fragment = new SubSearch1Fragment();
+        Fragment fragment = new SubSearch2Fragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
@@ -82,12 +82,12 @@ public class SearchFragment extends Fragment {
                 myOnClick(view);
             }
         });
-        btn_map.setOnClickListener(new View.OnClickListener() {
+        /*btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myFragmentOnClick(view);
             }
-        });
+        });*/
         btn_abc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,11 +113,11 @@ public class SearchFragment extends Fragment {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         switch (v.getId()) {
-            case R.id.btn_map :
+            /*case R.id.btn_map :
                 Fragment fragment1 = new SubSearch1Fragment();
                 fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.list_fragment)).replace(R.id.list_fragment, fragment1);
 
-                break;
+                break;*/
             case R.id.btn_abc :
                 Fragment fragment2 = new SubSearch2Fragment();
                 fragmentTransaction.remove(getFragmentManager().findFragmentById(R.id.list_fragment)).replace(R.id.list_fragment, fragment2);
@@ -234,10 +234,10 @@ public class SearchFragment extends Fragment {
         btn_replace = (ImageButton) view.findViewById(R.id.btn_replace);
         btn_search = (ImageButton) view.findViewById(R.id.btn_search);
 
-        btn_map = (Button) view.findViewById(R.id.btn_map);
+        //btn_map = (Button) view.findViewById(R.id.btn_map);
         btn_abc = (Button) view.findViewById(R.id.btn_abc);
         btn_line = (Button) view.findViewById(R.id.btn_line);
-        btn_map.setText("노선도");
+        //btn_map.setText("노선도");
         btn_abc.setText("가나다");
         btn_line.setText("호선순");
     }

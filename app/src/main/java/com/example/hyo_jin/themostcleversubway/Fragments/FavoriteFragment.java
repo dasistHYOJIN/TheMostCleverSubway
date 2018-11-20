@@ -2,6 +2,7 @@ package com.example.hyo_jin.themostcleversubway.Fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,6 +55,7 @@ public class FavoriteFragment extends Fragment {
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
+    RequestQueue queue;
 
     JSONArray jsonArray;
 
@@ -71,18 +73,23 @@ public class FavoriteFragment extends Fragment {
         //Fragment fragment;
 
         gridView = (GridView) view.findViewById(R.id.gridview_fav);
+        queue = Volley.newRequestQueue(getContext());
 
         setting = getActivity().getSharedPreferences("setting", MODE_PRIVATE);
         editor = setting.edit();
 
         /*** 그리드뷰 완성하기 ***/
         final List<FavoriteGridItem> data = new ArrayList<>();
+        final FavoriteGridAdapter adapter = new FavoriteGridAdapter(this.getContext(), R.layout.gridlayout_favorite, data);
 
         // 서버에서 가져와서 array에 넣어줌
         String url = HOST + "/add/favorite/get";
         Log.v(TAG, url);
+        Log.v(TAG, setting.getString("token", null));
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null,
+        JSONArray params = new JSONArray();
+        params.put(setting.getString("token", null));
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, params,
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -93,11 +100,20 @@ public class FavoriteFragment extends Fragment {
                         try {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject starObject = (JSONObject) jsonArray.get(i);
-                                String start = starObject.getString("S_STATION");
-                                String last = starObject.getString("L_STATION");
 
-                                data.add(new FavoriteGridItem(start, last, "하행"));
+                                String fav_id = starObject.getString("ID"); // 즐겨찾기id
+                                String start = starObject.getString("S_STATION"); // 출발역
+                                String last = starObject.getString("L_STATION"); // 도착역
+                                String way = starObject.getString("WAY"); // 방향
+
+                                //data.add(new FavoriteGridItem(getContext(), queue, fav_id, start, last, way));
+                                FavoriteGridItem favoriteGridItem = new FavoriteGridItem(getContext(), queue, fav_id, start, last, way);
+                                data.add(favoriteGridItem);
+                                Log.v(TAG, favoriteGridItem.toString());
                             }
+                            // gridview 갱신
+                            data.remove(0);
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -110,30 +126,17 @@ public class FavoriteFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
 
-                Toast.makeText(getContext(), "서버와의 연결이 불안정해요!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "불안정해요!", Toast.LENGTH_SHORT).show();
                 Log.v(TAG, "웹 서버 데이터요청 실패");
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("token", setting.getString("token", null));
+        });
+        request.setShouldCache(false);
+        queue.add(request); // 생성한 JsonArrayRequest를 RequestQueue에 추가
 
-                return params;
-            }
-        };
-
-        FavoriteGridItem one = new FavoriteGridItem("구파발", "태릉입구","하행");
-        FavoriteGridItem two = new FavoriteGridItem("태릉입구", "구파발", "하행");
-        FavoriteGridItem three = new FavoriteGridItem("건대입구", "태릉입구", "상행");
-        FavoriteGridItem four = new FavoriteGridItem("구파발", "신촌", "하행");
-
+        FavoriteGridItem one = new FavoriteGridItem(getContext(), queue, "default", "출발역", "도착역","하행");
         data.add(one);
-        data.add(two);
-        data.add(three);
-        data.add(four);
 
-        final FavoriteGridAdapter adapter = new FavoriteGridAdapter(this.getContext(), R.layout.gridlayout_favorite, data);
+        //final FavoriteGridAdapter adapter = new FavoriteGridAdapter(this.getContext(), R.layout.gridlayout_favorite, data);
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -152,7 +155,7 @@ public class FavoriteFragment extends Fragment {
         // @ref http://kitesoft.tistory.com/68
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view, final int position, long id) {
                 // 오래 누르면 즐겨찾기 해제 팝업창이 떠야함
                 PopupMenu popupMenu = new PopupMenu(getContext(), view);
                 final int index = position;
@@ -161,7 +164,10 @@ public class FavoriteFragment extends Fragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        update_fav();
+                        // 즐겨찾기 id 받아오기
+                        String id = ((FavoriteGridItem) parent.getItemAtPosition(position)).getFav_id();
+
+                        update_fav(id);
 
                         // 즐겨찾기를 해제하면 data 배열에서 해당 아이템 빼고 새로고침
                         data.remove(index);
@@ -184,7 +190,6 @@ public class FavoriteFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -195,7 +200,8 @@ public class FavoriteFragment extends Fragment {
         menu.setHeaderTitle("즐겨찾기 등록/삭제");
     }
 
-    private void update_fav() {
+    /**** 즐겨찾기 해제 ****/
+    private void update_fav(final String id) {
         String url = HOST + "/add/favorite/star";
         Log.v(TAG, "url "+url);
 
@@ -219,13 +225,17 @@ public class FavoriteFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", setting.getString("token", null));
-                //params.put("id", getHistoryId());
+                params.put("id", id);
 
                 return params;
             }
         };
         request.setShouldCache(false);
-        Volley.newRequestQueue(getContext()).add(request);
+        queue.add(request);
+
+    }
+
+    private void getHistoryId() {
 
     }
 }
