@@ -25,8 +25,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hyo_jin.themostcleversubway.Activity.ResultActivity;
@@ -106,10 +104,7 @@ public class FavoriteFragment extends Fragment {
                                 String last = starObject.getString("L_STATION"); // 도착역
                                 String way = starObject.getString("WAY"); // 방향
 
-                                //data.add(new FavoriteGridItem(getContext(), queue, fav_id, start, last, way));
-                                FavoriteGridItem favoriteGridItem = new FavoriteGridItem(getContext(), queue, fav_id, start, last, way);
-                                data.add(favoriteGridItem);
-                                Log.v(TAG, favoriteGridItem.toString());
+                                data.add(new FavoriteGridItem(fav_id, start, last, way));
                             }
                             // gridview 갱신
                             data.remove(0);
@@ -131,9 +126,9 @@ public class FavoriteFragment extends Fragment {
             }
         });
         request.setShouldCache(false);
-        queue.add(request); // 생성한 JsonArrayRequest를 RequestQueue에 추가
+        Volley.newRequestQueue(getContext()).add(request); // 생성한 JsonArrayRequest를 RequestQueue에 추가
 
-        FavoriteGridItem one = new FavoriteGridItem(getContext(), queue, "default", "출발역", "도착역","하행");
+        FavoriteGridItem one = new FavoriteGridItem("default", "출발역", "도착역","하행");
         data.add(one);
 
         //final FavoriteGridAdapter adapter = new FavoriteGridAdapter(this.getContext(), R.layout.gridlayout_favorite, data);
