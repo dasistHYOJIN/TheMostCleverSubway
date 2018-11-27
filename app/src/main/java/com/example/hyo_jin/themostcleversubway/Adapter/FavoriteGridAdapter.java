@@ -2,7 +2,6 @@ package com.example.hyo_jin.themostcleversubway.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.icu.util.Output;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,34 +10,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.hyo_jin.themostcleversubway.Item.FavoriteGridItem;
 import com.example.hyo_jin.themostcleversubway.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
-import static org.apache.http.params.CoreConnectionPNames.CONNECTION_TIMEOUT;
 
 /**
  * Created by Hyo-Jin on 2018-05-14.
@@ -88,14 +76,14 @@ public class FavoriteGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View view, final ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         if (view == null)
             view = inflater.inflate(layout, viewGroup, false);
 
         // init
         init(view);
 
-        final FavoriteGridItem favoriteGridItem = data.get(position);
+        FavoriteGridItem favoriteGridItem = data.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         text_course.setText(favoriteGridItem.getStation1() + " → " + favoriteGridItem.getStation2());
@@ -119,7 +107,6 @@ public class FavoriteGridAdapter extends BaseAdapter {
 
     protected void init(View view) {
         text_course = (TextView) view.findViewById(R.id.text_course);
-        text_course.setText("아무개역 → 어떤역");
         text_subwayinfo = (TextView) view.findViewById(R.id.text_subwayinfo);
         text_realtime = (TextView) view.findViewById(R.id.text_realtime);
         text_realtime.setText("서버에서 정보를 불러오고 있어요.");
@@ -183,7 +170,7 @@ public class FavoriteGridAdapter extends BaseAdapter {
                 br.close();
                 is.close();
 
-                Log.v(TAG, "doInBackground " + station1 + " " + sb.toString());
+                Log.v(TAG, "doInBackground >> " + station1 + " " + sb.toString());
                 result = new JSONObject(sb.toString());
             } catch (ProtocolException e) {
                 e.printStackTrace();
@@ -201,16 +188,13 @@ public class FavoriteGridAdapter extends BaseAdapter {
             super.onPostExecute(jsonObject);
             if (jsonObject == null) return;
 
-            Log.v(TAG,  "onPostExecute " + station1 + " " + jsonObject);
+            Log.v(TAG,  "onPostExecute >> " + station1 + " " + jsonObject);
             // json 데이터 중에 실데이터 배열만 받고
             try {
                 // 상행/하행 구분하기 위해서
                 lineNum = jsonObject.getString("lineNum");
                 direction = jsonObject.getString("direction");
                 arrCode = jsonObject.getString("arvlCd");
-                Log.v(TAG, station1 + " >> " + jsonObject.getString("lineNum"));
-                Log.v(TAG, station1 + " >> " + jsonObject.getString("direction"));
-                Log.v(TAG, station1 + " >> " + jsonObject.getString("arvlCd"));
 
                 switch (arrCode) {
                     case "-1" :
@@ -252,6 +236,8 @@ public class FavoriteGridAdapter extends BaseAdapter {
                 text_realtime.setText(realtime);
                 text_bestseat.setText(bestseat);
                 text_fastseat.setText(fastseat);
+
+                Log.v(TAG, station1 + " >> " + text_realtime.getText());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -229,8 +229,4 @@ public class FavoriteFragment extends Fragment {
         queue.add(request);
 
     }
-
-    private void getHistoryId() {
-
-    }
 }
