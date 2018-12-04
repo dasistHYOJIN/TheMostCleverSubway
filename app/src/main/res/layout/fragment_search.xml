@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="구파발" />
+            android:text="소요산" />
 
         <ImageButton
             android:id="@+id/btn_replace"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="신촌" />
+            android:text="잠실나루" />
 
         <ImageButton
             android:id="@+id/btn_search"

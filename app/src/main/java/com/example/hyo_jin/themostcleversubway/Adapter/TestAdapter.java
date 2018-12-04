@@ -104,8 +104,8 @@ public class TestAdapter extends BaseAdapter {
                 // 아이템 내 각 위젯에 데이터 반영
                 station_name.setText(item.getStation());
                 direction.setText(item.getDirection());
-                lefttime.setText(item.getTime()[0] + " 후 도착\n"
-                        + item.getTime()[1] + " 후 도착");
+                lefttime.setText(item.getTime() + " 후 도착\n"
+                        + item.getTime() + " 후 도착");
 
                 break;
             case 2 :
@@ -132,8 +132,8 @@ public class TestAdapter extends BaseAdapter {
                 // 아이템 내 각 위젯에 데이터 반영
                 station_name_last.setText(item.getStation());
                 direction_last.setText(item.getDirection());
-                lefttime_last.setText(item.getTime()[0] + " 후 도착\n"
-                        + item.getTime()[1] + " 후 도착");
+                lefttime_last.setText(item.getTime() + " 후 도착\n"
+                        + item.getTime() + " 후 도착");
 
                 break;
         }

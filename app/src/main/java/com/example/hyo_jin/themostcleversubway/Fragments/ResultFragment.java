@@ -37,7 +37,7 @@ public class ResultFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<ResultItem> result = new ArrayList<>();
+    //private List<ResultItem> result = new ArrayList<>();
     private JSONArray jsonArray;
 
     private String depart, arrive;
@@ -59,7 +59,8 @@ public class ResultFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
-        setResultJSON(depart, arrive);
+        if (depart != null && arrive != null)
+            setResultJSON(depart, arrive);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getContext());
@@ -78,9 +79,45 @@ public class ResultFragment extends Fragment {
             JSONObject object = jsonArray.getJSONObject(0);
             String statnIds[] = object.getString("shtStatnId").split(",");
             String statnNms[] = object.getString("shtStatnNm").split(",");
+            String directions[] = object.getString("DIRECTION").split(",");
+
+            /********************/
+            String arrCode = object.getString("arvlCd");
+            String realtime;
+
+            switch (arrCode) {
+                case "-1" :
+                    realtime = "응답오류";
+                    break;
+                case "0" :
+                    realtime = "진입";
+                    break;
+                case "1" :
+                    realtime = "도착";
+                    break;
+                case "2" :
+                    realtime = "출발";
+                    break;
+                case "3" :
+                    realtime = "전역출발";
+                    break;
+                case "4" :
+                    realtime = "전역진입";
+                    break;
+                case "5" :
+                    realtime = "전역도착";
+                    break;
+                default:
+                    int time = object.getInt("realtime");
+                    realtime =  (time / 60) + "분 " + String.format("%02d", (time % 60)) + "초";
+                    break;
+            }
+            /********************/
+
 
             String statnId = statnIds[0];
-            result.add(new ResultItem(1, statnNms[0], "", lefttime, -1, null, null));
+            int transCnt = 0;
+            result.add(new ResultItem(1, statnNms[0], directions[transCnt++] + "행", realtime, -1, statnId.substring(0, 4))); // 출발역 호선id
             for (int i = 0, count = 0; i < statnIds.length; i++) {
                 Log.v(TAG, statnNms[i].trim() + " " + statnIds[i].substring(0, 4));
                 if (statnIds[i].startsWith(statnId.substring(0, 4))) {
@@ -89,8 +126,8 @@ public class ResultFragment extends Fragment {
                     Log.v(TAG, "count " + count);
                 } else {
                     // 환승할 때
-                    result.add(new ResultItem(2, null, null, null, count, "2-6", "8-4"));
-                    result.add(new ResultItem(1, statnNms[i], "", lefttime, -1, null, null));
+                    result.add(new ResultItem(2, count, "2-6", "8-4"));
+                    result.add(new ResultItem(1, statnNms[i], directions[transCnt++] + "행", realtime, -1, statnIds[i].substring(0, 4)));
 
                     statnId = statnIds[i];
                     count = 0;
@@ -98,8 +135,8 @@ public class ResultFragment extends Fragment {
 
                 // 마지막역일 때
                 if (i == statnIds.length-1) {
-                    result.add(new ResultItem(2, null, null, null, count, "2-6", "8-4"));
-                    result.add(new ResultItem(3, statnNms[i], "", lefttime, -1, null, null));
+                    result.add(new ResultItem(2, count, "2-6", "8-4"));
+                    result.add(new ResultItem(3, statnNms[i], "", realtime, -1, statnIds[i].substring(0, 4)));
                 }
             }
         } catch (JSONException e) {
@@ -112,11 +149,9 @@ public class ResultFragment extends Fragment {
     }
 
     public void setResultJSON(String depart, String arrive) {
-        String api_url = "http://swopenapi.seoul.go.kr/api/subway/6e48535a78686765353479756b6b67/"
-                + "json/shortestRoute/0/2/" + depart + "/" + arrive;
+        String api_url = "http://54.180.32.17:3000/search/route/" + depart + "/" + arrive;
         Log.v(TAG, api_url);
 
-        // 왜 얘는 GET이야
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, api_url, null,
                 new Response.Listener<JSONObject>() {
 
@@ -151,5 +186,4 @@ public class ResultFragment extends Fragment {
     protected void init(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
     }
-
 }

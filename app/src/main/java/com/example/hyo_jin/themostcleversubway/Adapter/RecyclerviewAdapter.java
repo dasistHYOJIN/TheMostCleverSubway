@@ -100,12 +100,16 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         int res = result.get(position).getType();
+        int drawable;
+
         switch (res) {
             case 1:
+                drawable = setLineImage(result.get(position).getLine()); // 호선 이미지 resource
                 ((ViewHolder) holder).station_name.setText(result.get(position).getStation());
+                ((ViewHolder) holder).img_linecolor.setImageResource(drawable);
                 ((ViewHolder) holder).direction.setText(result.get(position).getDirection());
-                ((ViewHolder) holder).lefttime.setText(result.get(position).getTime()[0] + " 후 도착\n"
-                        + result.get(position).getTime()[1] + " 후 도착");
+                ((ViewHolder) holder).lefttime.setText(result.get(position).getTime() + " 후 도착\n"
+                        + result.get(position).getTime() + " 후 도착");
 
                 break;
             case 2:
@@ -119,10 +123,13 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter {
 
                 break;
             case 3:
+                drawable = setLineImage(result.get(position).getLine()); // 호선 이미지 resource
+
                 ((ViewHolder) holder).station_name.setText(result.get(position).getStation());
+                ((ViewHolder) holder).img_linecolor.setImageResource(drawable);
                 ((ViewHolder) holder).direction.setText(result.get(position).getDirection());
-                ((ViewHolder) holder).lefttime.setText(result.get(position).getTime()[0] + " 후 도착\n"
-                        + result.get(position).getTime()[1] + " 후 도착");
+                ((ViewHolder) holder).lefttime.setText(result.get(position).getTime() + " 후 도착\n"
+                        + result.get(position).getTime() + " 후 도착");
                 break;
 
         }
@@ -136,5 +143,44 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         return result.get(position).getType();
+    }
+
+    public int setLineImage(String line) {
+
+        switch (line) {
+            case "1001":
+                return R.drawable.line1;
+            case "1002":
+                return R.drawable.line2;
+            case "1003":
+                return R.drawable.line3;
+            case "1004":
+                return R.drawable.line4;
+            case "1005":
+                return R.drawable.line5;
+            case "1006":
+                return R.drawable.line6;
+            case "1007":
+                return R.drawable.line7;
+            case "1008":
+                return R.drawable.line8;
+            case "1009":
+                return R.drawable.line9;
+            case "1063":
+                return R.drawable.line_kyungui;
+            case "1065":
+                return R.drawable.line_gonghang;
+            case "1067":
+                return R.drawable.line_kyungchun;
+            case "1071":
+                return R.drawable.line_suin;
+            case "1075":
+                return R.drawable.line_bundang;
+            case "1077":
+                return R.drawable.line_shinbundang;
+            default:
+                return R.drawable.line1;
+        }
+
     }
 }

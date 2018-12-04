@@ -41,7 +41,7 @@ public class FavoriteGridAdapter extends BaseAdapter {
     protected SharedPreferences.Editor editor;
 
     private LayoutInflater inflater;
-    private List<FavoriteGridItem> data = new ArrayList<FavoriteGridItem>();
+    private List<FavoriteGridItem> data;// = new ArrayList<FavoriteGridItem>();
     private int layout;
     //private int time;
 
@@ -89,6 +89,12 @@ public class FavoriteGridAdapter extends BaseAdapter {
         text_course.setText(favoriteGridItem.getStation1() + " → " + favoriteGridItem.getStation2());
         if (!favoriteGridItem.getStation1().equals("출발역"))
             new SubwayAsync(favoriteGridItem.getStation1(), favoriteGridItem.getWay()).execute();
+        // TODO: new(favoriteGridItem) 전달
+        /* 아니면, TextView text_course;
+        TextView text_subwayinfo;
+        TextView text_realtime;
+        TextView text_bestseat;
+        TextView text_fastseat; */
 
         // 1초에 한번씩 갱신
         /*final Timer timer = new Timer();
